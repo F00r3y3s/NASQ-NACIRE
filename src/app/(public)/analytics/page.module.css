@@ -1,7 +1,6 @@
 .page {
   display: block;
-  width: min(1328px, 100%);
-  margin: 0 auto;
+  width: 100%;
 }
 
 .header {
@@ -167,14 +166,14 @@
 }
 
 .sparkFrame {
-  margin-top: 10px;
-  height: 40px;
+  margin-top: 8px;
+  height: 44px;
 }
 
 .sparkline {
   display: block;
   width: 100%;
-  height: 40px;
+  height: 44px;
 }
 
 .goalHeader {
@@ -314,6 +313,8 @@
 }
 
 .chartLegendSwatch {
+  display: block;
+  flex-shrink: 0;
   width: 16px;
   height: 3px;
   border-radius: 999px;
@@ -325,6 +326,12 @@
 
 .chartLegendGreen {
   background: var(--green);
+}
+
+.chartLegendMuted {
+  height: 0;
+  border-radius: 0;
+  border-top: 2px dashed var(--bdr2);
 }
 
 .chartLegendBlue {
@@ -379,8 +386,7 @@
 }
 
 .activityGrid {
-  stroke: rgba(195, 198, 203, 0.8);
-  stroke-dasharray: 3 4;
+  stroke: rgba(225, 227, 229, 0.95);
   stroke-width: 1;
 }
 
@@ -392,29 +398,29 @@
   fill: rgba(74, 157, 92, 0.1);
 }
 
-.activityAreaBlue {
-  fill: rgba(79, 152, 255, 0.1);
-}
-
 .activityLineGold,
-.activityLineGreen,
-.activityLineBlue {
+.activityLineGreen {
   fill: none;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 2.2;
+  stroke-width: 2;
 }
 
 .activityLineGold {
   stroke: var(--gold);
 }
 
-.activityLineGreen {
-  stroke: var(--green);
+.activityLinePrevious {
+  fill: none;
+  stroke: var(--bdr2);
+  stroke-dasharray: 4 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
 }
 
-.activityLineBlue {
-  stroke: var(--blue);
+.activityLineGreen {
+  stroke: var(--green);
 }
 
 .activityDotGold {
@@ -423,10 +429,6 @@
 
 .activityDotGreen {
   fill: var(--green);
-}
-
-.activityDotBlue {
-  fill: var(--blue);
 }
 
 .activityLabel,
@@ -607,6 +609,7 @@
   flex: 1;
   flex-direction: column;
   gap: 7px;
+  min-width: 0;
 }
 
 .legendItem {
@@ -616,6 +619,7 @@
   gap: 10px;
   color: var(--t2);
   font-size: 0.72rem;
+  min-width: 0;
 }
 
 .legendLabelWrap {
@@ -623,6 +627,46 @@
   align-items: center;
   gap: 5px;
   min-width: 0;
+  flex: 1;
+}
+
+.legendLabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.legendValue {
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+.sectorCard {
+  padding: 1rem;
+}
+
+.sectorCard .donutRow {
+  gap: 10px;
+}
+
+.sectorCard .donut {
+  width: 100px;
+  height: 100px;
+}
+
+.sectorCard .donutInner,
+.sectorCard .donutEmpty {
+  inset: 20px;
+}
+
+.sectorCard .legend {
+  gap: 5px;
+}
+
+.sectorCard .legendItem {
+  gap: 8px;
+  font-size: 0.7rem;
 }
 
 .legendDot {

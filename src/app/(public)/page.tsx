@@ -38,32 +38,63 @@ const sparkToneMap = {
 
 type SparkTone = keyof typeof sparkToneMap;
 
-function buildLinePath(values: number[], width: number, height: number, padding = 2) {
+function buildSparkPoints(values: number[], width: number, height: number, padding = 2) {
   const series = values.length > 0 ? values : [0];
   const maxValue = Math.max(...series, 1);
   const usableWidth = width - padding * 2;
   const usableHeight = height - padding * 2;
 
-  return series
-    .map((value, index) => {
-      const x =
-        padding +
-        (series.length === 1 ? usableWidth / 2 : (usableWidth / (series.length - 1)) * index);
-      const y = padding + usableHeight - (value / maxValue) * usableHeight;
+  return series.map((value, index) => {
+    const x =
+      padding +
+      (series.length === 1 ? usableWidth / 2 : (usableWidth / (series.length - 1)) * index);
+    const y = padding + usableHeight - (value / maxValue) * usableHeight;
 
-      return `${index === 0 ? "M" : "L"} ${x.toFixed(2)} ${y.toFixed(2)}`;
-    })
-    .join(" ");
+    return { x, y };
+  });
+}
+
+function buildSmoothPath(points: { x: number; y: number }[]) {
+  if (points.length === 0) {
+    return "";
+  }
+
+  if (points.length === 1) {
+    const [point] = points;
+
+    return `M ${point.x.toFixed(2)} ${point.y.toFixed(2)}`;
+  }
+
+  const commands = [`M ${points[0]!.x.toFixed(2)} ${points[0]!.y.toFixed(2)}`];
+
+  for (let index = 0; index < points.length - 1; index += 1) {
+    const current = points[index]!;
+    const next = points[index + 1]!;
+    const previous = points[index - 1] ?? current;
+    const following = points[index + 2] ?? next;
+    const controlOneX = current.x + (next.x - previous.x) / 6;
+    const controlOneY = current.y + (next.y - previous.y) / 6;
+    const controlTwoX = next.x - (following.x - current.x) / 6;
+    const controlTwoY = next.y - (following.y - current.y) / 6;
+
+    commands.push(
+      `C ${controlOneX.toFixed(2)} ${controlOneY.toFixed(2)} ${controlTwoX.toFixed(
+        2,
+      )} ${controlTwoY.toFixed(2)} ${next.x.toFixed(2)} ${next.y.toFixed(2)}`,
+    );
+  }
+
+  return commands.join(" ");
 }
 
 function buildAreaPath(values: number[], width: number, height: number, padding = 2) {
-  const series = values.length > 0 ? values : [0];
-  const line = buildLinePath(series, width, height, padding);
-  const startX = padding;
-  const endX = width - padding;
+  const points = buildSparkPoints(values, width, height, padding);
+  const line = buildSmoothPath(points);
+  const firstPoint = points[0]!;
+  const lastPoint = points[points.length - 1]!;
   const baseline = height - padding;
 
-  return `${line} L ${endX.toFixed(2)} ${baseline.toFixed(2)} L ${startX.toFixed(
+  return `${line} L ${lastPoint.x.toFixed(2)} ${baseline.toFixed(2)} L ${firstPoint.x.toFixed(
     2,
   )} ${baseline.toFixed(2)} Z`;
 }
@@ -79,9 +110,9 @@ function DashboardSparkline({
 
   return (
     <svg aria-hidden="true" className={styles.sparkline} viewBox="0 0 164 44">
-      <path d={buildAreaPath(points, 164, 44, 2)} fill={palette.fill} />
+      <path d={buildAreaPath(points, 164, 44, 0)} fill={palette.fill} />
       <path
-        d={buildLinePath(points, 164, 44, 2)}
+        d={buildSmoothPath(buildSparkPoints(points, 164, 44, 0))}
         fill="none"
         stroke={palette.stroke}
         strokeLinecap="round"

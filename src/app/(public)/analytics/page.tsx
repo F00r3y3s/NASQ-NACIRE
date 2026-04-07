@@ -55,9 +55,9 @@ type AnalyticsViewModel = Awaited<ReturnType<typeof getPublicAnalyticsViewModel>
 type ChartPoint = { x: number; y: number };
 
 const activityLegend = [
-  { label: "Problems", tone: "gold" },
-  { label: "Solutions", tone: "green" },
-  { label: "AI Events", tone: "blue" },
+  { label: "This week", tone: "gold" },
+  { label: "Previous", tone: "muted" },
+  { label: "AI Events", tone: "green" },
 ] as const;
 
 function buildLinePath(values: number[], width: number, height: number, padding = 0) {
@@ -88,20 +88,6 @@ function buildAreaPath(values: number[], width: number, height: number, padding 
   return `${line} L ${endX.toFixed(2)} ${baseline.toFixed(2)} L ${startX.toFixed(
     2,
   )} ${baseline.toFixed(2)} Z`;
-}
-
-function getRoundedChartMaximum(value: number) {
-  if (value <= 0) {
-    return 4;
-  }
-
-  const roughStep = value / 4;
-  const magnitude = 10 ** Math.floor(Math.log10(roughStep));
-  const normalized = roughStep / magnitude;
-  const step =
-    normalized <= 1 ? 1 : normalized <= 2 ? 2 : normalized <= 5 ? 5 : 10;
-
-  return step * magnitude * 4;
 }
 
 function getScaledChartPoints(
@@ -191,10 +177,18 @@ function Sparkline({ points, tone }: { points: number[]; tone: ChartTone }) {
   const palette = sparkToneMap[tone];
 
   return (
-    <svg aria-hidden="true" className={styles.sparkline} viewBox="0 0 160 36">
-      <path d={buildAreaPath(points, 160, 36, 2)} fill={palette.fill} />
+    <svg aria-hidden="true" className={styles.sparkline} viewBox="0 0 164 40">
+      <path d={buildAreaPath(points, 164, 40, 0)} fill={palette.fill} />
       <path
-        d={buildLinePath(points, 160, 36, 2)}
+        d={buildSmoothPath(getScaledChartPoints(points, {
+          height: 40,
+          maxValue: Math.max(...(points.length > 0 ? points : [0]), 1),
+          paddingBottom: 0,
+          paddingLeft: 0,
+          paddingRight: 0,
+          paddingTop: 0,
+          width: 164,
+        }))}
         fill="none"
         stroke={palette.stroke}
         strokeLinecap="round"
@@ -206,22 +200,23 @@ function Sparkline({ points, tone }: { points: number[]; tone: ChartTone }) {
 }
 
 function ActivityChart({
+  maxValue,
   points,
 }: {
+  maxValue: number;
   points: AnalyticsViewModel["trend"]["points"];
 }) {
   const width = 560;
   const height = 196;
-  const paddingLeft = 34;
-  const paddingRight = 10;
-  const paddingTop = 18;
-  const paddingBottom = 28;
-  const challengeSeries = points.map((point) => point.challenges);
-  const solutionSeries = points.map((point) => point.solutions);
-  const signalSeries = points.map((point) => point.signals);
-  const allValues = [...challengeSeries, ...solutionSeries, ...signalSeries];
-  const displayMax = getRoundedChartMaximum(Math.max(...allValues, 1));
-  const challengePoints = getScaledChartPoints(challengeSeries, {
+  const paddingLeft = 22;
+  const paddingRight = 4;
+  const paddingTop = 14;
+  const paddingBottom = 26;
+  const signalSeries = points.map((point) => point.aiEvents);
+  const currentSeries = points.map((point) => point.thisWeek);
+  const previousSeries = points.map((point) => point.previous);
+  const displayMax = Math.max(maxValue, 1);
+  const currentPoints = getScaledChartPoints(currentSeries, {
     height,
     maxValue: displayMax,
     paddingBottom,
@@ -230,7 +225,7 @@ function ActivityChart({
     paddingTop,
     width,
   });
-  const solutionPoints = getScaledChartPoints(solutionSeries, {
+  const previousPoints = getScaledChartPoints(previousSeries, {
     height,
     maxValue: displayMax,
     paddingBottom,
@@ -248,7 +243,7 @@ function ActivityChart({
     paddingTop,
     width,
   });
-  const gridValues = [1, 0.75, 0.5, 0.25, 0];
+  const gridValues = [1, 0.8, 0.6, 0.4, 0.2, 0];
   const baselineY = height - paddingBottom;
 
   return (
@@ -261,10 +256,6 @@ function ActivityChart({
         <linearGradient id="activityGreenFill" x1="0" x2="0" y1="0" y2="1">
           <stop offset="0%" stopColor="#4A9D5C" stopOpacity="0.16" />
           <stop offset="100%" stopColor="#4A9D5C" stopOpacity="0.02" />
-        </linearGradient>
-        <linearGradient id="activityBlueFill" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor="#4F98FF" stopOpacity="0.16" />
-          <stop offset="100%" stopColor="#4F98FF" stopOpacity="0.02" />
         </linearGradient>
       </defs>
 
@@ -290,44 +281,37 @@ function ActivityChart({
 
       <path
         className={styles.activityAreaGold}
-        d={buildSmoothAreaPath(challengePoints, baselineY)}
+        d={buildSmoothAreaPath(currentPoints, baselineY)}
         fill="url(#activityGoldFill)"
       />
       <path
         className={styles.activityAreaGreen}
-        d={buildSmoothAreaPath(solutionPoints, baselineY)}
-        fill="url(#activityGreenFill)"
-      />
-      <path
-        className={styles.activityAreaBlue}
         d={buildSmoothAreaPath(signalPoints, baselineY)}
-        fill="url(#activityBlueFill)"
+        fill="url(#activityGreenFill)"
       />
 
       <path
         className={styles.activityLineGold}
-        d={buildSmoothPath(challengePoints)}
+        d={buildSmoothPath(currentPoints)}
+      />
+      <path
+        className={styles.activityLinePrevious}
+        d={buildSmoothPath(previousPoints)}
       />
       <path
         className={styles.activityLineGreen}
-        d={buildSmoothPath(solutionPoints)}
-      />
-      <path
-        className={styles.activityLineBlue}
         d={buildSmoothPath(signalPoints)}
       />
 
       {points.map((point, index) => {
-        const challenge = challengePoints[index]!;
-        const solution = solutionPoints[index]!;
+        const challenge = currentPoints[index]!;
         const signal = signalPoints[index]!;
         const labelX = challenge.x;
 
         return (
           <g key={point.label}>
             <circle className={styles.activityDotGold} cx={challenge.x} cy={challenge.y} r="2.4" />
-            <circle className={styles.activityDotGreen} cx={solution.x} cy={solution.y} r="2.2" />
-            <circle className={styles.activityDotBlue} cx={signal.x} cy={signal.y} r="2.2" />
+            <circle className={styles.activityDotGreen} cx={signal.x} cy={signal.y} r="2.2" />
             <text className={styles.activityLabel} textAnchor="middle" x={labelX} y={height - 4}>
               {point.label}
             </text>
@@ -418,6 +402,7 @@ function SectorDonut({
     blue: "#4F98FF",
     gold: "#CBA344",
     green: "#4A9D5C",
+    muted: "#9EA2A9",
     red: "#D83731",
     teal: "#00ABEB",
   };
@@ -446,6 +431,27 @@ function SectorDonut({
       <div className={styles.donutInner} />
     </div>
   );
+}
+
+function getSectorLegendLabel(label: string) {
+  const shortLabelMap: Record<string, string> = {
+    "Construction & Infrastructure": "Construction",
+    "Energy & Utilities": "Energy",
+    "Finance & Banking": "Finance",
+    "Logistics & Supply Chain": "Logistics",
+    "Police & Civil Defense": "Civil Defense",
+    "Solar & Energy": "Solar",
+  };
+
+  if (shortLabelMap[label]) {
+    return shortLabelMap[label];
+  }
+
+  if (label.includes(" / ")) {
+    return label.split(" / ")[0] ?? label;
+  }
+
+  return label;
 }
 
 export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps) {
@@ -516,7 +522,7 @@ export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps
           <div className={styles.progressTrack}>
             <div
               className={styles.progressFill}
-              style={{ width: `${analytics.goalCard.progressPercent}%` }}
+              style={{ width: `${analytics.goalCard.trackingBarPercent}%` }}
             />
           </div>
         </article>
@@ -541,6 +547,8 @@ export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps
                         styles.chartLegendSwatch,
                         item.tone === "gold"
                           ? styles.chartLegendGold
+                          : item.tone === "muted"
+                            ? styles.chartLegendMuted
                           : item.tone === "green"
                             ? styles.chartLegendGreen
                             : styles.chartLegendBlue,
@@ -574,10 +582,10 @@ export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps
           </div>
 
           {analytics.trend.points.some(
-            (point) => point.challenges > 0 || point.solutions > 0 || point.signals > 0,
+            (point) => point.thisWeek > 0 || point.previous > 0 || point.aiEvents > 0,
           ) ? (
             <>
-              <ActivityChart points={analytics.trend.points} />
+              <ActivityChart maxValue={analytics.trend.maxValue} points={analytics.trend.points} />
               <div className={styles.summaryRow}>
                 {analytics.trend.summary.map((item) => (
                   <div className={styles.summaryItem} key={item.label}>
@@ -593,9 +601,7 @@ export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps
                     />
                     <div>
                       <div className={styles.summaryValue}>{item.value}</div>
-                      <div className={styles.summaryLabel}>
-                        {item.label === "Signals" ? "AI Events" : item.label}
-                      </div>
+                      <div className={styles.summaryLabel}>{item.label}</div>
                     </div>
                   </div>
                 ))}
@@ -652,7 +658,7 @@ export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps
       </section>
 
       <section className={styles.bottomGrid}>
-        <article className={styles.card}>
+        <article className={cx(styles.card, styles.sectorCard)}>
           <div className={styles.cardHeader}>
             <div className={styles.cardTitle}>By Sector</div>
           </div>
@@ -674,12 +680,16 @@ export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps
                                 ? styles.summaryBlue
                                 : segment.tone === "teal"
                                   ? styles.summaryTeal
-                                  : styles.summaryRed,
+                                  : segment.tone === "muted"
+                                    ? styles.summaryMuted
+                                    : styles.summaryRed,
                         )}
                       />
-                      <span>{segment.label}</span>
+                      <span className={styles.legendLabel} title={segment.label}>
+                        {getSectorLegendLabel(segment.label)}
+                      </span>
                     </div>
-                    <span>{segment.share}</span>
+                    <span className={styles.legendValue}>{segment.share}</span>
                   </div>
                 ))}
               </div>

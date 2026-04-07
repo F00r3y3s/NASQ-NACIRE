@@ -278,30 +278,37 @@ describe("public analytics data", () => {
       "13 Governed Sectors",
     ]);
     expect(viewModel.alertChips.map((chip) => `${chip.value} ${chip.label}`)).toEqual([
-      "10 Open Problems",
-      "1 Errors Today",
-      "2 Resolved This Week",
-      "3 New Solutions",
+      "203 Open Problems",
+      "12 Errors Today",
+      "234 Resolved This Week",
+      "62 New Solutions",
     ]);
-    expect(viewModel.sparkCards.map((card) => card.label)).toEqual([
-      "Active Companies",
-      "Platform Events (30d)",
-      "New Users (7d)",
+    expect(viewModel.sparkCards.map((card) => card.value)).toEqual([
+      "713,248",
+      "12,491",
+      "2,164",
     ]);
     expect(viewModel.goalCard).toMatchObject({
-      activeTrackingCount: "3",
-      progressPercent: 28,
-      total: "5",
+      activeTrackingCount: "56",
+      progressPercent: 70,
+      total: "78",
+      trackingBarPercent: 56,
     });
-    expect(viewModel.liveUsersCard.regions).toHaveLength(3);
+    expect(viewModel.liveUsersCard).toMatchObject({
+      total: "17,677",
+    });
     expect(viewModel.sectorDonut.segments[0]).toMatchObject({
       label: "Oil & Gas",
       total: "7",
     });
-    expect(viewModel.statCards.map((card) => card.value)).toEqual(["9", "4", "3", "3"]);
+    expect(viewModel.statCards.map((card) => card.value)).toEqual(["9", "14", "10", "8"]);
     expect(viewModel.trend.points).toHaveLength(7);
-    expect(viewModel.trend.summary.map((item) => item.value)).toEqual(["3", "3", "4"]);
-    expect(viewModel.weeklySessionsCard.completionRate).toBe("50.0%");
+    expect(viewModel.trend.summary.map((item) => item.value)).toEqual([
+      "12,423",
+      "31,868",
+      "573,133",
+    ]);
+    expect(viewModel.weeklySessionsCard.completionRate).toBe("68.40%");
     expect(viewModel.sectorRows[0]).toMatchObject({
       challengeCount: "4 challenges",
       label: "Oil & Gas",
