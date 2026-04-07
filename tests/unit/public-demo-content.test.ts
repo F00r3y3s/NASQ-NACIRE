@@ -5,15 +5,33 @@ import {
   getDemoChallengeBySlug,
   getDemoSolutionBySlug,
 } from "@/lib/demo/public-demo-content";
+import { sectorSeeds } from "@/domain/sectors";
 
 describe("public demo content", () => {
   it("provides enough challenge and solution records to exercise pagination", () => {
     const snapshot = createPublicDemoSnapshot();
 
-    expect(snapshot.challenges.length).toBeGreaterThanOrEqual(7);
-    expect(snapshot.solutions.length).toBeGreaterThanOrEqual(7);
+    expect(snapshot.challenges.length).toBe(sectorSeeds.length * 15);
+    expect(snapshot.solutions.length).toBe(sectorSeeds.length * 4);
     expect(snapshot.metrics?.publishedChallengeCount).toBe(snapshot.challenges.length);
     expect(snapshot.metrics?.publishedSolutionCount).toBe(snapshot.solutions.length);
+  });
+
+  it("creates exactly 15 challenge posts per sector with a solved and open mix", () => {
+    const snapshot = createPublicDemoSnapshot();
+    const countsBySector = new Map<string, number>();
+
+    snapshot.challenges.forEach((challenge) => {
+      countsBySector.set(
+        challenge.sectorSlug,
+        (countsBySector.get(challenge.sectorSlug) ?? 0) + 1,
+      );
+    });
+
+    expect(countsBySector.size).toBe(sectorSeeds.length);
+    expect([...countsBySector.values()]).toEqual(new Array(sectorSeeds.length).fill(15));
+    expect(snapshot.challenges.some((challenge) => challenge.linkedSolutionCount === 0)).toBe(true);
+    expect(snapshot.challenges.some((challenge) => challenge.linkedSolutionCount > 0)).toBe(true);
   });
 
   it("covers named and anonymous challenges plus free, paid, and contact solutions", () => {
