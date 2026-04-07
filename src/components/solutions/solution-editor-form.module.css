@@ -1,0 +1,83 @@
+.notice {
+  border: 1px solid var(--bdr);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.noticeSuccess {
+  background: color-mix(in srgb, var(--green) 10%, var(--white));
+  border-color: color-mix(in srgb, var(--green) 18%, var(--bdr));
+  color: var(--green-dk);
+}
+
+.noticeError {
+  background: color-mix(in srgb, var(--red) 9%, var(--white));
+  border-color: color-mix(in srgb, var(--red) 18%, var(--bdr));
+  color: var(--red);
+}
+
+.helperText {
+  margin: 2px 0 0;
+  color: var(--t3);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.fieldError {
+  margin: 4px 0 0;
+  color: var(--red);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.challengeList {
+  display: grid;
+  gap: 10px;
+}
+
+.challengeOption {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border: 1px solid var(--bdr);
+  border-radius: 14px;
+  background: var(--surf2);
+}
+
+.challengeOption input {
+  margin-top: 2px;
+}
+
+.challengeTitle {
+  color: var(--t1);
+  font-size: 0.87rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.challengeMeta {
+  margin-top: 3px;
+  color: var(--t3);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.buttonRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .buttonRow {
+    flex-direction: column;
+  }
+
+  .buttonRow > * {
+    width: 100%;
+    justify-content: center;
+  }
+}

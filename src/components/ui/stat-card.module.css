@@ -1,0 +1,87 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 3px solid transparent;
+}
+
+.gold {
+  border-top-color: var(--gold);
+}
+
+.green {
+  border-top-color: var(--green);
+}
+
+.blue {
+  border-top-color: var(--blue);
+}
+
+.teal {
+  border-top-color: var(--teal);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.label {
+  margin-bottom: 4px;
+  color: var(--t3);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.value {
+  color: var(--t1);
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.change {
+  margin-top: 4px;
+  color: var(--green);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.iconFrame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  font-size: 1.1rem;
+}
+
+.goldBg {
+  background: rgba(203, 163, 68, 0.1);
+  color: var(--gold);
+}
+
+.greenBg {
+  background: rgba(74, 157, 92, 0.1);
+  color: var(--green);
+}
+
+.blueBg {
+  background: rgba(79, 152, 255, 0.1);
+  color: var(--blue);
+}
+
+.tealBg {
+  background: rgba(0, 171, 235, 0.1);
+  color: var(--teal);
+}
+
+.chart {
+  min-height: 44px;
+}
+

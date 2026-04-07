@@ -1,0 +1,80 @@
+.card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+}
+
+.title {
+  margin: 0 0 6px;
+  color: var(--t1);
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.summary {
+  margin: 0;
+  color: var(--t2);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.region {
+  color: var(--t3);
+  font-size: 0.7rem;
+}
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.upvote {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--bdr);
+  background: var(--surf2);
+  color: var(--t2);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.upvote:hover {
+  border-color: var(--gold);
+  background: var(--gold-pale);
+  color: var(--gold);
+}
+
+.engagement {
+  color: var(--t3);
+  font-size: 0.7rem;
+}
+
+@media (max-width: 780px) {
+  .card {
+    grid-template-columns: 1fr;
+  }
+
+  .aside {
+    align-items: flex-start;
+  }
+}
+

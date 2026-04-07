@@ -1,0 +1,133 @@
+# Execution Status
+
+## Current Status
+- Planning workflow completed
+- Formal spec package materialized
+- Research notes materialized
+- Handoff and implementation rules materialized
+- Reusable `enahanced traycer agile workflow.zip` package generated
+- `T01` completed: Next.js App Router scaffold materialized
+- Environment contract materialized with safe Supabase gating
+- Route-group contract materialized for public, member, and admin surfaces
+- Supabase browser, server, and proxy boundaries added for later tickets
+- `T02` completed: artifact design system extracted into reusable UI primitives
+- Global design tokens now live in `src/app/globals.css`
+- Reusable CSS-module primitives now cover buttons, badges, pills, surfaces, section labels, stat cards, challenge cards, solution cards, form fields, chart panels, and data tables
+- The root preview page now composes the extracted design system instead of one-off page CSS
+- `T03` completed: shared app shell, active navigation, and route skeletons implemented
+- Public, member, and admin route groups now render through the fixed artifact-style sidebar and topbar shell
+- All planned surfaces now exist as route skeletons: dashboard, challenges, challenge detail, solutions, solution detail, AI, analytics, submit, draft detail, account overview, account challenges, account solutions, moderation, sectors, companies, and links
+- Active primary navigation is resolved through route-aware shell config and tested against dynamic routes
+- `T04` completed: core schema and domain types implemented
+- Core entity and lifecycle contracts now live in `src/domain/contracts.ts` and `src/domain/models.ts`
+- The first Supabase migration now lives in `supabase/migrations/20260406110000_t04_core_schema.sql`
+- The schema separates `Challenge`, `ChallengeDraft`, `Solution`, and `ChallengeSolutionLink`, mirrors `auth.users` into `public.profiles`, keeps `analytics_events` append-only, and models relay, AI, voting, company, and membership records explicitly
+- Required sector taxonomy names are now locked in the domain contract for later T06 seed materialization
+- `T05` completed: auth, membership, and company profile foundations implemented
+- Viewer access is now resolved on the server through `src/lib/auth/server.ts` and enforced by route-aware access policies in `src/lib/auth/access.ts`
+- Public layouts receive optional viewer context, member layouts now require authentication, verified contribution flows are gated through nested layouts, and admin routes require admin access
+- The shared shell now renders real viewer initials, account or admin actions, and primary-company context instead of static placeholder identity
+- Supabase SSR handling now follows the current cookie-refresh pattern more closely in both the server client and `proxy`
+- `T06` completed: RLS, public-safe read models, anonymous masking, and sector seed data implemented
+- Public-safe discovery contracts now live in `src/domain/public-records.ts` and governed sector metadata now lives in `src/domain/sectors.ts`
+- The new migration in `supabase/migrations/20260406124500_t06_access_policies_public_reads_and_sector_seeds.sql` enables RLS across the core schema, adds helper functions and policies, seeds all required sectors, and materializes public views for challenges, solutions, companies, sector activity, platform metrics, challenge links, sectors, and activity signals
+- Anonymous challenge identity is now masked in the database read model instead of relying on UI-only conventions
+- Public analytics and discovery foundations now read from explicit safe projections rather than raw tables
+- `T07` completed: public dashboard now reads real public-safe view data
+- Dashboard data composition now lives in `src/lib/data/public-dashboard.ts`, which queries the public-safe metrics, challenges, solutions, sector activity, and activity-signal views and normalizes them into one server-side view model
+- The root dashboard page in `src/app/(public)/page.tsx` now renders live, setup, empty, and error-ready states instead of importing mock shell content
+- Recent challenges, recent solutions, sector progress, platform metrics, sector pills, and the live activity feed now all flow from T06 public views rather than static arrays
+- The dashboard keeps anonymous challenge masking and publication-state presentation aligned with the database projections instead of re-implementing those rules in page code
+- A shared mapper layer now translates snake_case Supabase public-view rows into the camelCase domain read models before dashboard or browse pages consume them
+- `T08` completed: challenge browse now reads real public challenge and sector views with search, filtering, sorting, and pagination
+- Browse data composition now lives in `src/lib/data/public-challenges.ts`, which parses `q`, `sector`, `sort`, and `page` search params, queries public-safe challenge and sector views, and builds one server-side browse view model
+- The `/challenges` page now renders artifact-aligned quick sector pills, governed sector select filters, keyword search, sorting, pagination, and linked challenge cards instead of static mock content
+- Challenge browse routing now points cards into dedicated challenge detail pages using the planned public-safe slug routes
+- `T09` completed: challenge detail now reads real public-safe challenge, sector, and linked-solution data
+- Challenge detail composition now lives in `src/lib/data/public-challenge-detail.ts`, which queries one public challenge by slug, loads linked public solutions through the public challenge-link view, and builds a privacy-safe server-side detail view model
+- The `/challenges/[slug]` page now renders real problem statement, desired outcome, linked solutions, metadata, sector context, and response guidance instead of static placeholder copy
+- Detail routing now distinguishes setup or query failure from a true missing slug, so missing Supabase configuration does not masquerade as a 404 during local development
+- `T10` completed: member challenge authoring now supports real draft save, resume, validation, anonymity, geography controls, and submit-for-review flow
+- The shared challenge form rules now live in `src/lib/challenges/submission.ts`, covering normalization, validation, completion tracking, draft payload shaping, and pending-review challenge payload shaping
+- Submission and draft data loading now live in `src/lib/data/member-challenge-editor.ts`, which resolves governed sectors, current draft state, latest draft shortcuts, and editor metadata for both `/submit` and `/drafts/[id]`
+- The write path now lives in `src/lib/actions/challenge-submission.ts`, where one server action handles both `save_draft` and `submit_for_review`, creates or updates draft snapshots, inserts pending-review challenges, and redirects into the protected draft route
+- `/submit` and `/drafts/[id]` now share the real editor UI through `src/components/challenges/challenge-editor-form.tsx`, including server-side validation feedback and draft-lock behavior after submission
+- `T11` completed: member solution authoring now supports real create, edit, immediate publication, and optional challenge linking from the account workspace
+- Shared solution publishing rules now live in `src/lib/solutions/authoring.ts`, covering normalization, validation, completion tracking, solution payload shaping, and many-to-many challenge link payload shaping
+- Solution workspace loading now lives in `src/lib/data/member-solutions.ts`, which resolves governed sectors, owned solutions, current editor selection, linkable public challenges, and form blocking rules for `/account/solutions`
+- The write path now lives in `src/lib/actions/solution-authoring.ts`, where one server action handles both create and in-place update, validates link targets against public challenge reads, preserves existing ownership on edit, and keeps solution-to-challenge links in sync
+- `/account/solutions` now renders the real reusable-solution workspace through `src/components/solutions/solution-editor-form.tsx`, replacing the placeholder list with authoring, management, and linked-challenge context inside the artifact shell
+- `T12` completed: public solutions now support real browse, real detail, linked challenge context, and provider identity through the public-safe read models
+- Public solution browse now lives in `src/lib/data/public-solutions.ts`, which parses `q`, `sector`, `access`, `sort`, and `page` search params, queries public-safe solution, company-count, sector, and sector-activity views, and builds one server-side browse view model
+- Public solution detail now lives in `src/lib/data/public-solution-detail.ts`, which loads one public solution by slug, resolves linked public challenges, provider profile context, and sector context from public-safe views, and keeps setup/query failure distinct from a true missing slug
+- `/solutions` and `/solutions/[slug]` now render live public discovery surfaces instead of placeholder cards, and the company-presence requirement is satisfied through embedded public provider profile panels within the planned route set
+- `src/components/ui/solution-card.tsx` no longer nests a real button inside linked cards, which keeps the new public browse/detail composition semantically safer
+- T12 hardening follow-up: the public solution detail builder now preserves a real `error` state when the primary solution loads but supporting provider or linked-challenge context fails, and the route header or metadata now reflect that partial-failure state instead of falling back to fake live success
+- `T13` completed: anonymous relay messaging now supports protected response initiation, protected thread exchange, and owner masking without leaving the planned route set
+- Relay helper rules now live in `src/lib/relay/messaging.ts`, covering normalized relay form input, stable RPC payload shaping, privacy-safe counterpart labels, relay status copy, and shared timestamp or preview formatting
+- Relay creation and reply writes now live in `src/lib/actions/relay-messaging.ts`, where one server action starts new relay threads through security-definer Supabase RPC or posts replies into existing threads, then revalidates the member workspace and challenge detail entry points
+- Member challenge workspace loading now lives in `src/lib/data/member-challenges.ts`, which resolves authored challenge records, protected relay threads, selected thread detail, anonymous response targets from public challenge detail links, and optional published-solution context for responders
+- `/account/challenges` now renders the real member challenge workspace through `src/app/(member)/account/challenges/page.tsx` and `src/components/challenges/relay-thread-panel.tsx`, replacing the placeholder table with the protected relay inbox, response composer, and authored-challenge list
+- Anonymous public challenge detail now exposes a direct `Respond via Relay` entry point into `/account/challenges?challenge=<slug>` while preserving owner masking through the new workspace flow
+- The T13 migration in `supabase/migrations/20260406153000_t13_relay_functions_and_policy_hardening.sql` adds security-definer relay RPC functions plus tighter relay insert policies so new thread creation no longer depends on app-side access to masked challenge-owner membership identifiers
+- `T14` completed: the AI assistant now supports persisted public and signed-in continuity, suggested prompts, and preview-mode message rendering inside the artifact chat shell
+- Shared AI helper rules now live in `src/lib/ai/conversations.ts`, covering stable search-param parsing, prompt normalization and validation, compact thread-title derivation, preview-response generation, guest cookie naming, and user-facing status copy
+- AI workspace loading now lives in `src/lib/data/ai-assistant.ts`, which resolves signed-in vs public guest continuity, loads saved conversations and thread messages, distinguishes setup issues from recoverable workspace errors, and shapes one server-side view model for `/ai`
+- AI writes now live in `src/lib/actions/ai-assistant.ts`, where one server action appends to signed-in threads directly or uses guest RPC functions plus an HTTP-only continuity cookie for anonymous public threads
+- `/ai` now renders the real artifact-faithful assistant surface through `src/app/(public)/ai/page.tsx` and `src/components/ai/assistant-composer.tsx`, replacing the placeholder composition with saved-thread navigation, prompt suggestions, message history, and continuity-aware composer states
+- The T14 migration in `supabase/migrations/20260406170000_t14_guest_ai_conversation_functions.sql` adds guest-safe security-definer AI RPC functions so anonymous persistence works without exposing raw AI tables to public reads or writes
+- `T15` completed: AI answers are now grounded in internal public-safe records with stored citations, and verified members can turn saved threads into editable challenge drafts
+- Shared AI retrieval contracts now live in `src/lib/ai/contracts.ts`, `src/lib/ai/provider.ts`, `src/lib/ai/retrieval.ts`, `src/lib/ai/citations.ts`, and `src/lib/ai/service.ts`, covering provider abstraction, deterministic local fallback, vector-style relevance scoring, citation normalization, and conversation-to-draft shaping
+- The AI write path in `src/lib/actions/ai-assistant.ts` now replaces preview replies with grounded responses and stores assistant citations on `ai_messages`, while `/ai` renders those citations directly in the artifact chat surface
+- Member-only AI draft assist now lives in `src/lib/actions/ai-draft-assist.ts`, where a saved signed-in conversation can be converted into a standard editable `challenge_drafts` record linked by `source_conversation_id` and reopened under `/drafts/[id]`
+- The T15 migration in `supabase/migrations/20260406183000_t15_ai_grounding_and_guest_citations.sql` upgrades guest AI persistence so anonymous assistant turns can store the same citation arrays as signed-in threads
+- `T16` completed: public analytics now reads real public-safe intelligence data instead of the T03 placeholder
+- Analytics data composition now lives in `src/lib/data/public-analytics.ts`, which parses the window filter, queries public-safe metrics, sector activity, company profile, challenge, solution, and activity-signal views, and builds one server-side analytics view model with setup, empty, error, and live states
+- `/analytics` now renders the real artifact-faithful intelligence surface through `src/app/(public)/analytics/page.tsx` and `src/app/(public)/analytics/page.module.css`, including 7-day vs 30-day tabs, live stat cards, grouped activity trends, sector distribution, geography reach, signal mix, and recent public-safe signals
+- The analytics surface intentionally uses aggregate-safe view data only, keeping anonymous masking and public-only visibility inherited from the T06 SQL read models instead of re-implementing looser page-level access rules
+- `T17` completed: protected admin governance now supports real moderation, sector management, company governance, membership verification, and link oversight
+- Admin governance data composition now lives in `src/lib/data/admin-governance.ts`, which loads moderation queues, governed sector summaries, company trust rollups, membership state, challenge-solution link candidates, and recent governance events from protected tables
+- Admin writes now live in `src/lib/actions/admin-governance.ts`, where dedicated server actions handle challenge review, solution overrides, sector create or update, company profile governance, membership trust updates, and challenge-solution link create or delete flows
+- `/admin/moderation`, `/admin/sectors`, `/admin/companies`, and `/admin/links` now render real protected workspaces instead of placeholders, using the artifact shell plus shared admin forms and list surfaces under `src/components/admin/`
+- Governance actions now emit admin-specific `analytics_events` entries so the admin console has an audit-friendly activity feed without weakening the public analytics surface or introducing a parallel audit schema during T17
+- `T18` completed: responsive, accessibility, and state polish now cover the live public, member, and admin experience
+- Global interaction polish now lives in `src/app/globals.css` and `src/components/shell/app-shell.tsx`, including focus-visible treatment, reduced-motion handling, a skip link, a functional top-bar discovery search handoff to `/challenges`, and stronger mobile shell behavior
+- Shared route-state boundaries now live in `src/components/shell/route-loading-state.tsx`, `src/components/shell/route-error-state.tsx`, and `src/components/shell/route-state.module.css`, and they are wired through route-group `loading.tsx` and `error.tsx` files for public, member, and admin segments plus a root `src/app/error.tsx`
+- Form and status accessibility is now stronger across AI, member authoring, and admin governance flows through `aria-busy`, `role=\"status\"`, `role=\"alert\"`, and responsive form-list cleanup in `src/components/ai/`, `src/components/challenges/`, `src/components/solutions/`, and `src/components/admin/`
+- Dense list-detail layouts now adapt more cleanly on smaller breakpoints through shell and admin CSS updates, keeping the artifact structure intact while avoiding cramped actions, overflowing message bubbles, or stacked control collisions
+- Verification passed: `npm test`, `npm run lint`, `npm run typecheck`, `npm run build`
+- `T19` completed: automated verification harness now covers critical public, member, admin, AI, and relay flows
+- Integration coverage now lives under `tests/integration/`, with reusable Supabase and redirect test helpers plus critical action coverage for challenge submission, solution publishing, relay messaging, AI continuity, and admin moderation
+- Playwright coverage now lives under `tests/e2e/` and `playwright.config.ts`, verifying public-shell navigation, challenge-search handoff, anonymous protected-route redirects, and mobile AI-shell usability in both desktop and mobile Chromium projects
+- The verification contract now includes `test:unit`, `test:integration`, `test:e2e`, `test:coverage`, and `test:verify`, and Playwright starts from a fresh built server through `npm run e2e:serve` unless an explicit `PLAYWRIGHT_BASE_URL` is supplied
+- T19 also hardens server-action redirect handling by preserving Next.js redirect exceptions inside catch blocks, preventing generic error handlers from swallowing successful navigation flows during real submissions or moderation actions
+- Latest verification passed: `npm run test:coverage`, `npm test`, `npm run build`, and `npm run test:verify`
+- `T20` completed: final security review, docs conformance pass, and release sign-off hardening are now in place
+- Release-level HTTP security headers now ship from `next.config.mjs`, and the new unit coverage in `tests/unit/next-config.test.ts` protects that baseline from accidental regressions
+- The new migration in `supabase/migrations/20260407003000_t20_security_hardening.sql` revokes default execute access from sensitive helper or RPC functions, narrows grants to the required Supabase roles, and removes the obsolete five-argument guest AI RPC overload
+- Public company website URLs are now sanitized at the mapper boundary before UI rendering, and outbound provider links explicitly use `noopener noreferrer`
+- Dependency hardening now pins transitive `vite` to `8.0.5` through `package.json` overrides, and `npm run security:audit` now provides a repeatable release vulnerability check
+- Latest release verification passed: `npm run security:audit`, `npm test`, `npm run build`, and `npm run test:verify`
+
+## Next Actions
+1. Apply the local Supabase migrations, including `20260407003000_t20_security_hardening.sql`, to the target hosted project and verify the production database matches the audited schema.
+2. Set production environment variables for `NEXT_PUBLIC_APP_URL`, Supabase public keys, and optional AI provider values before the first release candidate deploy.
+3. If the production deployment sits behind a reverse proxy or non-matching host layer, configure `serverActions.allowedOrigins` deliberately before go-live; otherwise the current same-origin default is the intended secure baseline.
+4. Run a short manual smoke pass after deployment for auth, anonymous relay entry, AI continuity, and admin moderation even though the automated gate is now green.
+
+## Post-T20 Showcase Follow-Up
+- The public dashboard route in `src/app/(public)/page.tsx` was rebuilt to follow the artifact dashboard structure directly, replacing the earlier generic panel composition with the artifact hero, stat cards, recent challenge grid, sector-glance card, live-activity card, and quick-action rail.
+- The dashboard CSS in `src/app/(public)/page.module.css` now matches the artifact proportions and card treatments more closely, including the hero shell, four-card stat row, `1fr 280px` main grid, artifact pill styling, and bespoke challenge cards.
+- The dashboard data layer in `src/lib/data/public-dashboard.ts` now derives artifact-facing sparkline series, resolution-rate metrics, sector tones, and challenge footer metadata from the same public-safe records already used for live product data.
+- Dashboard unit coverage was updated in `tests/unit/public-dashboard-data.test.ts`, and verification passed with `npm run test:unit -- tests/unit/public-dashboard-data.test.ts`, `npm run lint`, and `npm run typecheck`.
+- The challenge submit and browse surfaces were refined to close the next artifact gap without widening v1 scope beyond the existing challenge-vs-solution model.
+- The submit editor in `src/components/challenges/challenge-editor-form.tsx` now includes the artifact-style `Do you already have a solution?` chooser, with `No Solution` preserving the challenge flow and the `Free Solution` / `Paid Solution` cards routing into `/account/solutions` with the access model preselected.
+- The public challenge browse route in `src/app/(public)/challenges/page.tsx` and `src/lib/data/public-challenges.ts` now supports `status` filters for `all`, `open`, and `solved`, preserves company or anonymous footer identity on the custom artifact-style cards, and shows a `Submit a Solution` CTA only on open challenges.
+- The member solution workspace in `src/app/(member)/account/solutions/page.tsx` and `src/lib/data/member-solutions.ts` now accepts `?challenge=` and `?access=` handoff params so new solution drafts can prefill linked challenge context and free vs paid defaults without affecting edit flows.
+- Coverage was extended in `tests/unit/public-challenges-data.test.ts` and `tests/unit/member-solutions-data.test.ts`, and verification passed with `npm run test:unit -- tests/unit/public-challenges-data.test.ts tests/unit/member-solutions-data.test.ts`, `npm run lint`, `npm run typecheck`, and `npm run build`.
+- The public browse cards on `/challenges` now act as clean open-detail entries without inline action buttons, while `/challenges/[slug]` now always exposes a `Submit a Solution` CTA even when a challenge already has one or more linked solutions.
+- The member solution editor in `src/components/solutions/solution-editor-form.tsx` now uses a real coverage dropdown instead of a free-text field, while still preserving existing non-standard saved coverage labels on edit by injecting the current value into the option list when needed.
+- Additional regression coverage landed in `tests/unit/public-challenge-detail-data.test.ts` and `tests/unit/solution-authoring.test.ts`, and verification passed with `npm run test:unit -- tests/unit/public-challenges-data.test.ts tests/unit/public-challenge-detail-data.test.ts tests/unit/solution-authoring.test.ts tests/unit/member-solutions-data.test.ts`, `npm run lint`, `npm run typecheck`, and `npm run build`.
+
+## Fresh-Thread Goal
+The next thread can begin from the post-`T20` showcase audit with the scaffold, design system, shell, schema, auth, permissions, public-safe reads, all planned product surfaces, the automated verification harness, the final security hardening, and the artifact-style analytics plus dashboard layouts already in place, allowing the work to focus on browser-level visual comparison, Playwright bridge recovery, deployment rollout, smoke checks, and post-release follow-ups instead of re-establishing product foundations.

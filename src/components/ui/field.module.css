@@ -1,0 +1,42 @@
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  color: var(--t1);
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.control {
+  width: 100%;
+  border: 1.5px solid var(--bdr);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  color: var(--t1);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 1rem;
+  outline: none;
+  padding: 10px 14px;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.control::placeholder {
+  color: var(--t3);
+}
+
+.control:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(203, 163, 68, 0.15);
+}
+
+.textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+

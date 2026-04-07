@@ -1,0 +1,142 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.notice {
+  border: 1px solid var(--bdr);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.noticeSuccess {
+  border-color: color-mix(in srgb, var(--teal) 36%, var(--bdr));
+  background: color-mix(in srgb, var(--teal) 8%, var(--white));
+  color: var(--t2);
+}
+
+.noticeError {
+  border-color: color-mix(in srgb, #d64545 34%, var(--bdr));
+  background: color-mix(in srgb, #d64545 8%, var(--white));
+  color: var(--t2);
+}
+
+.headerRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.challengeLink {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--bdr);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--t2);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 7px 12px;
+  transition:
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.challengeLink:hover {
+  border-color: var(--gold);
+  color: var(--gold-dk);
+  transform: translateY(-1px);
+}
+
+.threadSummary {
+  border: 1px solid var(--bdr);
+  border-radius: 16px;
+  background: var(--surf2);
+  padding: 14px 16px;
+}
+
+.summaryTitle {
+  color: var(--t1);
+  font-size: 0.94rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.summaryCopy {
+  margin: 8px 0 0;
+  color: var(--t2);
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.summaryMeta {
+  margin-top: 8px;
+  color: var(--t3);
+  font-size: 0.75rem;
+}
+
+.messageList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.messageBubble {
+  max-width: 88%;
+  border-radius: 18px;
+  padding: 12px 14px;
+}
+
+.messageOwn {
+  margin-left: auto;
+  background: color-mix(in srgb, var(--gold) 18%, var(--white));
+  border: 1px solid color-mix(in srgb, var(--gold) 34%, var(--bdr));
+}
+
+.messageOther {
+  margin-right: auto;
+  background: var(--white);
+  border: 1px solid var(--bdr);
+}
+
+.messageMeta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--t3);
+  font-size: 0.72rem;
+}
+
+.messageBody {
+  margin: 8px 0 0;
+  color: var(--t1);
+  font-size: 0.84rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.helperText {
+  margin: 0;
+  color: var(--t3);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+.fieldError {
+  margin: 0;
+  color: #b53434;
+  font-size: 0.74rem;
+}
+
+.buttonRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}

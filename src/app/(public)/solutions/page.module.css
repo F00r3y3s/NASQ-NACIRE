@@ -1,0 +1,198 @@
+.filterPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.filterHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.sectionTitle {
+  margin: 0;
+  color: var(--t1);
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.copy {
+  margin: 8px 0 0;
+  color: var(--t2);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  gap: 10px;
+  min-width: min(100%, 420px);
+}
+
+.statItem {
+  border: 1px solid var(--bdr);
+  border-radius: 14px;
+  background: var(--surf2);
+  padding: 12px 14px;
+}
+
+.statLabel {
+  color: var(--t3);
+  font-size: 0.72rem;
+  margin-bottom: 4px;
+}
+
+.statValue {
+  color: var(--t1);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(160px, 1fr)) auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.fieldStack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.resultsRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pageIndicator {
+  color: var(--t3);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.solutionList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cardLink {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.emptySurface {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.pageLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.pageLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 38px;
+  border: 1.5px solid var(--bdr);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--t2);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.pageLink:hover {
+  border-color: var(--gold);
+  color: var(--gold-dk);
+}
+
+.pageLinkActive {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--white);
+}
+
+.disabledButton {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+@media (max-width: 1100px) {
+  .filterHeader {
+    flex-direction: column;
+  }
+
+  .statGrid {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .formGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 800px) {
+  .resultsRow,
+  .pagination {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 640px) {
+  .statGrid,
+  .formGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .formActions {
+    width: 100%;
+  }
+
+  .formActions > * {
+    width: 100%;
+    justify-content: center;
+  }
+}

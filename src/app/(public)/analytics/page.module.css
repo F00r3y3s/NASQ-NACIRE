@@ -1,0 +1,852 @@
+.page {
+  display: block;
+  width: min(1328px, 100%);
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.eyebrow {
+  margin-bottom: 4px;
+  color: var(--gold);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  color: var(--t1);
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 5px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.chipGold {
+  border-color: rgba(203, 163, 68, 0.3);
+  background: rgba(203, 163, 68, 0.1);
+  color: var(--gold-dk);
+}
+
+.chipRed {
+  border-color: rgba(216, 55, 49, 0.3);
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+.chipGreen {
+  border-color: rgba(74, 157, 92, 0.3);
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+.chipBlue {
+  border-color: rgba(79, 152, 255, 0.3);
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+
+.notice {
+  margin: 0 0 14px;
+  border: 1px dashed rgba(203, 163, 68, 0.34);
+  border-radius: 12px;
+  background:
+    linear-gradient(135deg, rgba(203, 163, 68, 0.08), rgba(79, 152, 255, 0.04)),
+    var(--white);
+  color: var(--t2);
+  font-size: 0.84rem;
+  line-height: 1.65;
+  padding: 12px 14px;
+}
+
+.statRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1.1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.sparkCard,
+.goalCard,
+.card {
+  border: 1px solid var(--bdr);
+  border-radius: 14px;
+  background: var(--white);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  padding: 1.35rem 1.4rem;
+}
+
+.sparkCard,
+.goalCard {
+  min-height: 108px;
+}
+
+.sparkCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cardLabel {
+  margin-bottom: 4px;
+  color: var(--t3);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.sparkValueRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.sparkValue {
+  color: var(--t1);
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.sparkValueGold {
+  color: var(--gold);
+}
+
+.deltaBadge {
+  border-radius: 5px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 7px;
+}
+
+.deltaPositive {
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+.deltaNegative {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+.deltaPositiveText {
+  color: var(--green);
+}
+
+.deltaNegativeText {
+  color: var(--red);
+}
+
+.sparkFrame {
+  margin-top: 10px;
+  height: 40px;
+}
+
+.sparkline {
+  display: block;
+  width: 100%;
+  height: 40px;
+}
+
+.goalHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.goalValue {
+  color: var(--gold);
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: 2.8rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.ringWrap {
+  position: relative;
+  display: flex;
+  width: 58px;
+  height: 58px;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring {
+  width: 58px;
+  height: 58px;
+  transform: rotate(-90deg);
+}
+
+.ringTrack,
+.ringProgress {
+  stroke-width: 3;
+}
+
+.ringTrack {
+  stroke: #e1e3e5;
+}
+
+.ringProgress {
+  stroke: var(--gold);
+  stroke-dashoffset: 25;
+  stroke-linecap: round;
+}
+
+.ringLabel {
+  position: absolute;
+  color: var(--gold);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.goalMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+  color: var(--t3);
+  font-size: 0.7rem;
+}
+
+.goalMetaValue {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.goalMetaBadge {
+  margin-left: 5px;
+  border-radius: 3px;
+  background: var(--green-bg);
+  color: var(--green);
+  font-size: 10px;
+  padding: 1px 5px;
+}
+
+.progressTrack {
+  height: 5px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--bdr);
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--gold);
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.rightStack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.chartHeaderControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.chartLegend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.chartLegendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--t3);
+  font-size: 0.68rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.chartLegendSwatch {
+  width: 16px;
+  height: 3px;
+  border-radius: 999px;
+}
+
+.chartLegendGold {
+  background: var(--gold);
+}
+
+.chartLegendGreen {
+  background: var(--green);
+}
+
+.chartLegendBlue {
+  background: var(--blue);
+}
+
+.cardTitle {
+  color: var(--t1);
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.cardSubtitle {
+  margin-top: 2px;
+  color: var(--t3);
+  font-size: 0.75rem;
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1.5px solid var(--bdr);
+}
+
+.tab {
+  margin-bottom: -1.5px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--t3);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 12px 7px;
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.tab:hover {
+  color: var(--gold);
+}
+
+.tabActive {
+  border-bottom-color: var(--gold);
+  color: var(--gold);
+}
+
+.activityChart {
+  display: block;
+  width: 100%;
+  height: 196px;
+}
+
+.activityGrid {
+  stroke: rgba(195, 198, 203, 0.8);
+  stroke-dasharray: 3 4;
+  stroke-width: 1;
+}
+
+.activityAreaGold {
+  fill: rgba(203, 163, 68, 0.12);
+}
+
+.activityAreaGreen {
+  fill: rgba(74, 157, 92, 0.1);
+}
+
+.activityAreaBlue {
+  fill: rgba(79, 152, 255, 0.1);
+}
+
+.activityLineGold,
+.activityLineGreen,
+.activityLineBlue {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.2;
+}
+
+.activityLineGold {
+  stroke: var(--gold);
+}
+
+.activityLineGreen {
+  stroke: var(--green);
+}
+
+.activityLineBlue {
+  stroke: var(--blue);
+}
+
+.activityDotGold {
+  fill: var(--gold);
+}
+
+.activityDotGreen {
+  fill: var(--green);
+}
+
+.activityDotBlue {
+  fill: var(--blue);
+}
+
+.activityLabel,
+.activityAxisValue,
+.activityTickLabel {
+  fill: var(--t3);
+  font-size: 10px;
+}
+
+.activityAxisValue {
+  text-anchor: end;
+}
+
+.activityTickLabel {
+  text-anchor: end;
+}
+
+.summaryRow {
+  display: flex;
+  gap: 24px;
+  margin-top: 12px;
+  border-top: 1px solid var(--bdr);
+  padding-top: 12px;
+}
+
+.summaryItem {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.summaryDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.summaryGold {
+  background: var(--gold);
+}
+
+.summaryGreen {
+  background: var(--green);
+}
+
+.summaryBlue {
+  background: var(--blue);
+}
+
+.summaryTeal {
+  background: var(--teal);
+}
+
+.summaryRed {
+  background: var(--red);
+}
+
+.summaryMuted {
+  background: var(--bdr2);
+}
+
+.summaryValue {
+  color: var(--t1);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.summaryLabel {
+  color: var(--t3);
+  font-size: 0.75rem;
+}
+
+.liveBadge {
+  color: var(--green);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.liveValue {
+  margin: 8px 0 4px;
+  color: var(--t1);
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: 2.35rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.miniBarChart {
+  display: block;
+  width: 100%;
+  height: 84px;
+}
+
+.regionList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.regionRow {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--bdr);
+  color: var(--t3);
+  font-size: 0.75rem;
+  padding: 4px 0;
+}
+
+.regionValue {
+  font-weight: 600;
+}
+
+.regionGold {
+  color: var(--gold);
+}
+
+.regionGreen {
+  color: var(--green);
+}
+
+.regionBlue {
+  color: var(--blue);
+}
+
+.sessionsSummary {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.sessionsRate {
+  color: var(--gold);
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: 1.65rem;
+  font-weight: 800;
+}
+
+.sessionsNote {
+  color: var(--t3);
+  font-size: 0.7rem;
+}
+
+.bottomGrid {
+  display: grid;
+  grid-template-columns: 214px 1fr 1fr 214px;
+  gap: 12px;
+}
+
+.bottomGrid > .card {
+  min-height: 146px;
+}
+
+.donutRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.donut {
+  position: relative;
+  width: 116px;
+  height: 116px;
+  flex-shrink: 0;
+  border-radius: 999px;
+}
+
+.donutInner,
+.donutEmpty {
+  position: absolute;
+  inset: 24px;
+  border-radius: 999px;
+  background: var(--white);
+}
+
+.legend {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--t2);
+  font-size: 0.72rem;
+}
+
+.legendLabelWrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.legendDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.geoGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.geoRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.geoLabel {
+  width: 92px;
+  flex-shrink: 0;
+  color: var(--t2);
+  font-size: 0.72rem;
+}
+
+.geoTrack {
+  flex: 1;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--bdr);
+}
+
+.geoFill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.geoValue {
+  color: var(--t3);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.trafficList {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.trafficRow {
+  display: grid;
+  grid-template-columns: 92px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  color: var(--t2);
+  font-size: 0.72rem;
+}
+
+.trafficTrack {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--bdr);
+}
+
+.trafficFill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.trafficGold {
+  background: var(--gold);
+}
+
+.trafficGreen {
+  background: var(--green);
+}
+
+.trafficBlue {
+  background: var(--blue);
+}
+
+.trafficTeal {
+  background: var(--teal);
+}
+
+.trafficMuted {
+  background: var(--bdr2);
+}
+
+.trafficValue {
+  white-space: nowrap;
+}
+
+.trafficChange {
+  margin-left: 2px;
+}
+
+.feed {
+  display: flex;
+  max-height: 204px;
+  flex-direction: column;
+  gap: 9px;
+  overflow-y: auto;
+}
+
+.feedItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.feedIcon {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  font-size: 11px;
+}
+
+.feedGold {
+  background: rgba(203, 163, 68, 0.12);
+  color: var(--gold-dk);
+}
+
+.feedGreen {
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+.feedBlue {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+
+.feedTeal {
+  background: var(--teal-bg);
+  color: var(--teal);
+}
+
+.feedRed {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+.feedText {
+  color: var(--t2);
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.feedMeta {
+  margin-top: 1px;
+  color: var(--t3);
+  font-size: 0.65rem;
+}
+
+.note {
+  margin: 0;
+  color: var(--t2);
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+
+@media (max-width: 1280px) {
+  .statRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mainGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .bottomGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .chips {
+    justify-content: flex-start;
+  }
+
+  .statRow,
+  .bottomGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryRow {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+  }
+
+  .chartHeaderControls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .chartLegend {
+    justify-content: flex-start;
+  }
+
+  .donutRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .trafficRow {
+    grid-template-columns: 72px 1fr auto;
+  }
+}

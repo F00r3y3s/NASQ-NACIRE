@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>NASQ — NACIRE | UAE Industry Intelligence Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Inter:wght@200;400;600;700;800&family=Noto+Kufi+Arabic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ── FORCE LIGHT MODE ─────────────────────────────── */
+html, body, * { color-scheme: light only !important; }
+html { background: #F7F7F7 !important; }
+
+/* ── DESIGN TOKENS ────────────────────────────────── */
+:root {
+  --gold:      #CBA344;
+  --gold-lt:   #D7BC6D;
+  --gold-dk:   #92722A;
+  --gold-pale: #F9F7ED;
+  --bg:        #F7F7F7;
+  --white:     #FFFFFF;
+  --surf2:     #F1F3F5;
+  --bdr:       #E1E3E5;
+  --bdr2:      #C3C6CB;
+  --t1:        #1B1D21;
+  --t2:        #4B4F58;
+  --t3:        #797E86;
+  --green:     #4A9D5C;
+  --green-bg:  #F3FAF4;
+  --red:       #D83731;
+  --red-bg:    #FEF2F2;
+  --blue:      #4F98FF;
+  --blue-bg:   #E7F5FF;
+  --teal:      #00ABEB;
+  --teal-bg:   #EFFAFF;
+  --fB: 'Roboto', system-ui, sans-serif;
+  --fH: 'Inter', system-ui, sans-serif;
+  --fA: 'Noto Kufi Arabic', sans-serif;
+}
+
+/* ── RESET ────────────────────────────────────────── */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:var(--fB); font-size:1rem; background:var(--bg) !important; color:var(--t1) !important; min-height:100vh; overflow-x:hidden; line-height:1.5; }
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-thumb { background:var(--bdr2); border-radius:10px; }
+
+/* ── UAE FLAG ─────────────────────────────────────── */
+.uae-flag { display:inline-flex; border-radius:4px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.15); width:68px; height:42px; flex-shrink:0; margin-bottom:16px; }
+.uae-flag .f-red { width:20px; background:#FF0000; }
+.uae-flag .f-stripes { display:flex; flex-direction:column; flex:1; }
+.uae-flag .f-green { flex:1; background:#009736; }
+.uae-flag .f-white { flex:1; background:#FFFFFF; }
+.uae-flag .f-black { flex:1; background:#000000; }
+
+/* ── SIDEBAR ──────────────────────────────────────── */
+.sidebar { position:fixed; left:0; top:0; bottom:0; width:64px; background:var(--white); border-right:1px solid var(--bdr); display:flex; flex-direction:column; align-items:center; padding:20px 0; z-index:100; gap:4px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+.s-logo { width:38px; height:38px; border-radius:10px; background:var(--gold); display:flex; align-items:center; justify-content:center; font-family:var(--fH); font-size:11px; font-weight:800; color:#fff; letter-spacing:-.5px; margin-bottom:20px; cursor:pointer; box-shadow:0 2px 8px rgba(203,163,68,0.35); }
+.s-nav { display:flex; flex-direction:column; gap:2px; flex:1; }
+.ni { width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; position:relative; color:var(--t3); font-size:18px; border-left:3px solid transparent; transition:all .15s; }
+.ni:hover { background:rgba(203,163,68,0.08); color:var(--t2); }
+.ni.active { background:rgba(203,163,68,0.12); color:var(--gold); border-left-color:var(--gold); }
+.ni .tip { position:absolute; left:54px; background:var(--t1); color:#fff; padding:4px 10px; border-radius:6px; font-size:.75rem; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .15s; z-index:200; font-family:var(--fB); }
+.ni:hover .tip { opacity:1; }
+.s-av { width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,var(--teal),var(--blue)); display:flex; align-items:center; justify-content:center; font-size:.75rem; font-weight:700; color:#fff; cursor:pointer; border:2px solid var(--bdr); }
+
+/* ── TOPBAR ───────────────────────────────────────── */
+.main { margin-left:64px; }
+.topbar { height:60px; border-bottom:1px solid var(--bdr); display:flex; align-items:center; padding:0 28px; gap:16px; background:var(--white); position:sticky; top:0; z-index:50; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.t-title { font-family:var(--fH); font-size:1.25rem; font-weight:700; color:var(--t1); flex:1; }
+.t-title span { font-family:var(--fH); font-size:.875rem; font-weight:600; color:var(--t3); margin-left:6px; }
+.t-search { flex:0 0 300px; height:36px; background:var(--surf2); border:1px solid var(--bdr); border-radius:8px; display:flex; align-items:center; padding:0 12px; gap:8px; }
+.t-search:focus-within { border-color:var(--gold); }
+.t-search input { background:none; border:none; outline:none; color:var(--t1); font-family:var(--fB); font-size:.875rem; width:100%; }
+.t-search input::placeholder { color:var(--t3); }
+
+/* ── BUTTONS ──────────────────────────────────────── */
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:8px 18px; border-radius:8px; font-family:var(--fB); font-size:.875rem; font-weight:600; cursor:pointer; border:1.5px solid var(--gold); background:var(--gold); color:#fff; transition:all .15s; white-space:nowrap; }
+.btn:hover { background:#B68A35; border-color:#B68A35; box-shadow:0 2px 8px rgba(203,163,68,0.3); }
+.btn.o { background:transparent; color:var(--gold); }
+.btn.o:hover { background:rgba(203,163,68,0.06); box-shadow:none; }
+.btn.s { background:rgba(203,163,68,0.1); color:var(--gold-dk); border-color:transparent; }
+.btn.sm { padding:5px 12px; font-size:.75rem; }
+.btn.lg { padding:11px 24px; font-size:1rem; }
+
+/* ── PAGES ────────────────────────────────────────── */
+.page { display:none; padding:28px; }
+.page.active { display:block; animation:fadeUp .2s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── BADGE ────────────────────────────────────────── */
+.bdg { display:inline-flex; align-items:center; font-family:var(--fB); font-size:.75rem; font-weight:600; padding:3px 10px; border-radius:6px; }
+.bdg.gold  { background:rgba(203,163,68,0.12); color:var(--gold-dk); border:1px solid rgba(203,163,68,0.3); }
+.bdg.green { background:var(--green-bg); color:var(--green); border:1px solid rgba(74,157,92,0.3); }
+.bdg.red   { background:var(--red-bg);   color:var(--red);   border:1px solid rgba(216,55,49,0.3); }
+.bdg.blue  { background:var(--blue-bg);  color:var(--blue);  border:1px solid rgba(79,152,255,0.3); }
+.bdg.teal  { background:var(--teal-bg);  color:var(--teal);  border:1px solid rgba(0,171,235,0.3); }
+
+/* ── SECTION LABEL ────────────────────────────────── */
+.slbl { font-family:var(--fB); font-size:.75rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+.slbl::after { content:''; flex:1; height:1px; background:var(--bdr); }
+
+/* ── CARD ─────────────────────────────────────────── */
+.card { background:var(--white); border:1px solid var(--bdr); border-radius:14px; padding:1.25rem; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+
+/* ── CHART WRAPPER (fixes dropping charts) ────────── */
+.ch { position:relative; width:100%; }
+.ch canvas { position:absolute; top:0; left:0; width:100%!important; height:100%!important; }
+
+/* ── DASHBOARD ────────────────────────────────────── */
+.db-hero { display:grid; grid-template-columns:1fr auto; gap:32px; align-items:center; background:linear-gradient(135deg,var(--gold-pale),var(--white) 70%); border:1px solid rgba(203,163,68,0.2); border-radius:16px; padding:32px 36px; margin-bottom:20px; }
+.db-hero-l h1 { font-family:var(--fH); font-size:2.2rem; font-weight:200; line-height:1.15; color:var(--t1); margin-bottom:10px; }
+.db-hero-l h1 strong { font-weight:800; color:var(--gold); }
+.db-eyebrow { font-size:.75rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+.db-sub { font-size:.875rem; color:var(--t2); line-height:1.6; max-width:420px; }
+.db-hero-r { display:flex; flex-direction:column; border-left:1px solid var(--bdr); padding-left:32px; min-width:160px; }
+.db-hs { display:flex; flex-direction:column; padding:10px 0; }
+.db-hs-num { font-family:var(--fH); font-size:1.5rem; font-weight:800; color:var(--t1); line-height:1; }
+.db-hs-lbl { font-size:.75rem; color:var(--t3); margin-top:3px; }
+.db-divider { height:1px; background:var(--bdr); }
+
+.db-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px; }
+.db-sc { background:var(--white); border:1px solid var(--bdr); border-top:3px solid var(--gold); border-radius:14px; padding:16px 18px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.db-sc-top { display:flex; justify-content:space-between; align-items:flex-start; }
+.db-sc-ico { width:38px; height:38px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
+.db-sc-lbl { font-size:.7rem; color:var(--t3); text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px; }
+.db-sc-val { font-family:var(--fH); font-size:1.5rem; font-weight:800; color:var(--t1); line-height:1; }
+.db-sc-chg { font-size:.7rem; font-weight:600; color:var(--green); margin-top:4px; }
+
+.db-grid { display:grid; grid-template-columns:1fr 280px; gap:16px; }
+.db-side-card { background:var(--white); border:1px solid var(--bdr); border-radius:14px; padding:16px 18px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.db-side-card + .db-side-card { margin-top:14px; }
+.db-card-title { font-family:var(--fH); font-size:.875rem; font-weight:600; color:var(--t1); margin-bottom:14px; }
+.db-sec-bar { display:flex; flex-direction:column; gap:5px; margin-bottom:8px; }
+.db-sec-info { display:flex; justify-content:space-between; align-items:center; }
+.db-sec-cnt { font-size:.7rem; color:var(--t3); font-weight:600; }
+.db-bw { height:5px; background:var(--bdr); border-radius:3px; overflow:hidden; }
+.db-b  { height:100%; border-radius:3px; }
+.db-feed-item { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; }
+.db-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:4px; }
+.db-ft { font-size:.75rem; color:var(--t2); line-height:1.4; }
+.db-ft2 { font-size:.65rem; color:var(--t3); margin-top:2px; }
+.live-dot { font-size:.7rem; font-weight:700; color:var(--green); letter-spacing:1px; animation:blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ── PROBLEM CARDS ────────────────────────────────── */
+.prob-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+.prob-card { background:var(--white); border:1px solid var(--bdr); border-radius:14px; padding:1.25rem; cursor:pointer; box-shadow:0 1px 3px rgba(0,0,0,0.05); transition:all .15s; }
+.prob-card:hover { box-shadow:0 6px 20px rgba(0,0,0,0.1); border-color:var(--gold-lt); transform:translateY(-2px); }
+.prob-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; gap:8px; }
+.prob-title { font-family:var(--fH); font-size:1rem; font-weight:600; color:var(--t1); margin-bottom:6px; line-height:1.4; }
+.prob-desc { font-size:.875rem; color:var(--t3); line-height:1.6; margin-bottom:12px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.prob-footer { display:flex; align-items:center; justify-content:space-between; padding-top:10px; border-top:1px solid var(--bdr); }
+.co-info { display:flex; align-items:center; gap:6px; font-size:.75rem; color:var(--t3); }
+.co-av { width:20px; height:20px; border-radius:5px; background:linear-gradient(135deg,var(--teal),var(--blue)); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff; }
+.anon-av { width:20px; height:20px; border-radius:5px; background:var(--surf2); display:flex; align-items:center; justify-content:center; font-size:10px; }
+.meta { display:flex; gap:10px; font-size:.75rem; color:var(--t3); }
+
+/* ── SECTOR PILLS ─────────────────────────────────── */
+.pills { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+.pill { padding:5px 14px; border-radius:100px; font-size:.875rem; font-weight:600; cursor:pointer; border:1.5px solid var(--bdr); color:var(--t2); background:var(--white); display:inline-flex; align-items:center; gap:5px; transition:all .15s; }
+.pill:hover { border-color:var(--gold); color:var(--gold-dk); }
+.pill.active { border-color:var(--gold); background:var(--gold); color:#fff; }
+.pill .dot { width:5px; height:5px; border-radius:50%; background:currentColor; flex-shrink:0; }
+.pill.pri { border-color:rgba(203,163,68,0.4); color:var(--gold-dk); }
+
+/* ── FORM ─────────────────────────────────────────── */
+.form-wrap { max-width:680px; margin:0 auto; }
+.form-hd { margin-bottom:24px; }
+.form-hd h2 { font-family:var(--fH); font-size:2rem; font-weight:700; color:var(--t1); margin-bottom:6px; }
+.form-hd p { font-size:.875rem; color:var(--t3); }
+.fg { margin-bottom:1.25rem; display:flex; flex-direction:column; gap:6px; }
+.fl { font-family:var(--fH); font-size:.875rem; font-weight:600; color:var(--t1); }
+.fi, .fs, .fta { width:100%; background:var(--white); border:1.5px solid var(--bdr); border-radius:8px; padding:10px 14px; color:var(--t1); font-family:var(--fB); font-size:1rem; outline:none; transition:border-color .15s, box-shadow .15s; }
+.fi:focus,.fs:focus,.fta:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(203,163,68,0.15); }
+.fi::placeholder,.fta::placeholder { color:var(--t3); }
+.fta { resize:vertical; min-height:100px; }
+.toggle-row { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 16px; background:var(--white); border:1.5px solid var(--bdr); border-radius:10px; margin-bottom:10px; }
+.tgl-info strong { display:block; font-family:var(--fH); font-size:.875rem; font-weight:600; color:var(--t1); margin-bottom:2px; }
+.tgl-info span { font-size:.75rem; color:var(--t3); }
+.tgl { width:46px; height:24px; background:var(--bdr2); border-radius:100px; cursor:pointer; position:relative; transition:background .2s; border:none; flex-shrink:0; }
+.tgl.on { background:var(--gold); }
+.tgl::after { content:''; position:absolute; top:3px; left:3px; width:18px; height:18px; background:#fff; border-radius:50%; transition:left .2s; box-shadow:0 1px 3px rgba(0,0,0,0.15); }
+.tgl.on::after { left:25px; }
+.sol-types { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:20px; }
+.sol-tc { padding:1.25rem 1rem; background:var(--white); border:1.5px solid var(--bdr); border-radius:14px; cursor:pointer; text-align:center; transition:all .15s; }
+.sol-tc:hover { border-color:var(--gold-lt); background:var(--gold-pale); }
+.sol-tc.active { border-color:var(--gold); background:var(--gold-pale); box-shadow:0 0 0 1px var(--gold); }
+.sol-tc .ico { font-size:1.5rem; margin-bottom:8px; }
+.sol-tc .lbl { font-family:var(--fH); font-size:.875rem; font-weight:600; color:var(--t1); }
+.sol-tc .dsc { font-size:.75rem; color:var(--t3); margin-top:3px; }
+.success-msg { display:none; margin-top:14px; padding:14px; background:var(--green-bg); border:1px solid rgba(74,157,92,0.3); border-radius:10px; color:var(--green); font-size:.875rem; text-align:center; }
+
+/* ── SOLUTIONS ────────────────────────────────────── */
+.sol-list { display:flex; flex-direction:column; gap:12px; }
+.sol-card { background:var(--white); border:1px solid var(--bdr); border-radius:14px; padding:1.25rem; display:grid; grid-template-columns:1fr auto; gap:16px; cursor:pointer; box-shadow:0 1px 3px rgba(0,0,0,0.05); transition:all .15s; }
+.sol-card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.08); border-color:var(--gold-lt); }
+.sol-title { font-family:var(--fH); font-size:1.125rem; font-weight:700; color:var(--t1); margin-bottom:6px; }
+.sol-sum { font-size:.875rem; color:var(--t2); line-height:1.6; }
+.upvote { display:inline-flex; align-items:center; gap:5px; padding:6px 14px; border-radius:8px; border:1.5px solid var(--bdr); background:var(--surf2); color:var(--t2); font-family:var(--fB); font-size:.75rem; font-weight:600; cursor:pointer; transition:all .15s; }
+.upvote:hover { border-color:var(--gold); color:var(--gold); background:var(--gold-pale); }
+
+/* ── CHAT ─────────────────────────────────────────── */
+.chat-layout { display:grid; grid-template-columns:1fr 300px; gap:16px; height:calc(100vh - 116px); }
+.chat-main { background:var(--white); border:1px solid var(--bdr); border-radius:14px; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.chat-hd { padding:16px 20px; border-bottom:1px solid var(--bdr); display:flex; align-items:center; gap:12px; }
+.ai-av { width:38px; height:38px; border-radius:10px; background:var(--gold); display:flex; align-items:center; justify-content:center; font-family:var(--fH); font-size:11px; font-weight:800; color:#fff; box-shadow:0 2px 8px rgba(203,163,68,0.3); }
+.ai-status { flex:1; }
+.ai-status strong { display:block; font-family:var(--fH); font-size:.875rem; font-weight:600; color:var(--t1); }
+.ai-status span { font-size:.75rem; color:var(--green); display:flex; align-items:center; gap:4px; }
+.ai-status span::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--green); display:inline-block; }
+.chat-msgs { flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:14px; background:var(--surf2); }
+.msg { display:flex; gap:8px; }
+.msg.u { flex-direction:row-reverse; }
+.m-av { width:30px; height:30px; border-radius:8px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; }
+.msg.ai .m-av { background:var(--gold); color:#fff; font-family:var(--fH); font-size:9px; font-weight:800; }
+.msg.u  .m-av { background:linear-gradient(135deg,var(--teal),var(--blue)); color:#fff; }
+.m-bub { max-width:75%; padding:10px 14px; border-radius:14px; font-size:.875rem; line-height:1.6; }
+.msg.ai .m-bub { background:var(--white); border:1px solid var(--bdr); color:var(--t1); border-radius:4px 14px 14px 14px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.msg.u  .m-bub { background:var(--gold); color:#fff; font-weight:500; border-radius:14px 4px 14px 14px; }
+.res-card { margin-top:8px; padding:10px 12px; background:var(--surf2); border:1.5px solid var(--bdr); border-radius:8px; cursor:pointer; transition:border-color .15s; }
+.res-card:hover { border-color:var(--gold); }
+.res-card-title { font-size:.875rem; font-weight:600; color:var(--t1); margin-bottom:3px; }
+.res-card-meta { font-size:.75rem; color:var(--t3); display:flex; gap:8px; }
+.match-pct { font-size:.75rem; font-weight:600; padding:2px 7px; border-radius:5px; background:var(--green-bg); color:var(--green); }
+.chat-input-area { padding:14px 16px; border-top:1px solid var(--bdr); display:flex; gap:10px; align-items:flex-end; background:var(--white); }
+.chat-inp { flex:1; background:var(--surf2); border:1.5px solid var(--bdr); border-radius:8px; padding:9px 13px; color:var(--t1); font-family:var(--fB); font-size:1rem; resize:none; outline:none; max-height:100px; transition:border-color .15s; }
+.chat-inp:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(203,163,68,0.12); }
+.chat-inp::placeholder { color:var(--t3); }
+.send-btn { width:42px; height:42px; border-radius:8px; background:var(--gold); border:1.5px solid var(--gold); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:16px; color:#fff; flex-shrink:0; transition:all .15s; }
+.send-btn:hover { background:#B68A35; border-color:#B68A35; }
+.chat-side { background:var(--white); border:1px solid var(--bdr); border-radius:14px; padding:1.25rem; overflow-y:auto; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.chat-side h4 { font-family:var(--fH); font-size:.875rem; font-weight:600; color:var(--t2); margin-bottom:12px; }
+.sug { padding:9px 12px; background:var(--surf2); border:1px solid var(--bdr); border-radius:8px; font-size:.875rem; color:var(--t2); cursor:pointer; margin-bottom:7px; transition:all .15s; line-height:1.5; }
+.sug:hover { border-color:var(--gold); color:var(--t1); background:var(--gold-pale); }
+.typing { display:flex; gap:4px; padding:4px 0; }
+.typing span { width:6px; height:6px; border-radius:50%; background:var(--gold); animation:blink 1s infinite; }
+.typing span:nth-child(2){animation-delay:.15s}
+.typing span:nth-child(3){animation-delay:.3s}
+
+/* ── ANALYTICS ────────────────────────────────────── */
+.an-hd { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+.an-eyebrow { font-size:.75rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin-bottom:4px; }
+.an-title { font-family:var(--fH); font-size:1.5rem; font-weight:700; color:var(--t1); }
+.an-chips { display:flex; gap:8px; flex-wrap:wrap; }
+.an-chip { display:inline-flex; align-items:center; gap:5px; padding:5px 12px; border-radius:10px; font-size:.75rem; font-weight:600; border:1px solid; }
+.cw { background:rgba(203,163,68,0.1); border-color:rgba(203,163,68,0.3); color:var(--gold-dk); }
+.ce { background:var(--red-bg); border-color:rgba(216,55,49,0.3); color:var(--red); }
+.co { background:var(--green-bg); border-color:rgba(74,157,92,0.3); color:var(--green); }
+.ci { background:var(--blue-bg); border-color:rgba(79,152,255,0.3); color:var(--blue); }
+.an-stat-row { display:grid; grid-template-columns:1fr 1fr 1fr 1.1fr; gap:12px; margin-bottom:14px; }
+.an-sb { background:var(--white); border:1px solid var(--bdr); border-radius:14px; padding:1.25rem; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.an-lbl { font-size:.7rem; color:var(--t3); text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px; }
+.an-num { font-family:var(--fH); font-size:1.4rem; font-weight:700; color:var(--t1); display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:6px; }
+.an-b { font-size:.7rem; font-weight:600; padding:2px 7px; border-radius:5px; }
+.an-b.g { background:var(--green-bg); color:var(--green); }
+.an-b.r { background:var(--red-bg); color:var(--red); }
+.an-goals { background:var(--white); border:1px solid var(--bdr); border-radius:14px; padding:1.25rem; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.an-goals-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; }
+.an-goals-big { font-family:var(--fH); font-size:2.5rem; font-weight:800; color:var(--gold); line-height:1; }
+.an-ring-w { position:relative; width:52px; height:52px; display:flex; align-items:center; justify-content:center; }
+.an-ring { width:52px; height:52px; transform:rotate(-90deg); }
+.an-ring-lbl { position:absolute; font-size:.7rem; font-weight:700; color:var(--gold); }
+.an-prog { height:5px; background:var(--bdr); border-radius:3px; overflow:hidden; margin-top:6px; }
+.an-prog div { height:100%; background:var(--gold); border-radius:3px; }
+.an-main { display:grid; grid-template-columns:1fr 240px; gap:12px; margin-bottom:14px; }
+.an-right { display:flex; flex-direction:column; gap:12px; }
+.an-card { background:var(--white); border:1px solid var(--bdr); border-radius:14px; padding:1.25rem; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+.an-card-hd { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; }
+.an-card-t { font-family:var(--fH); font-size:.875rem; font-weight:600; color:var(--t1); }
+.an-card-s { font-size:.75rem; color:var(--t3); margin-top:2px; }
+.an-tabs { display:flex; border-bottom:1.5px solid var(--bdr); }
+.an-tab { font-size:.75rem; font-weight:600; padding:4px 12px 7px; cursor:pointer; color:var(--t3); border:none; border-bottom:2px solid transparent; background:transparent; margin-bottom:-1.5px; transition:all .15s; }
+.an-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
+.an-live-big { font-family:var(--fH); font-size:2rem; font-weight:800; color:var(--t1); margin:6px 0 2px; }
+.an-region-list { display:flex; flex-direction:column; gap:3px; margin-top:8px; }
+.an-region-row { display:flex; justify-content:space-between; font-size:.75rem; color:var(--t3); padding:3px 0; border-bottom:1px solid var(--bdr); }
+.an-sum { display:flex; gap:20px; margin-top:10px; padding-top:10px; border-top:1px solid var(--bdr); }
+.an-sum-item { display:flex; align-items:center; gap:7px; }
+.an-sum-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.an-sum-val { font-size:.875rem; font-weight:700; color:var(--t1); }
+.an-sum-lbl { font-size:.75rem; color:var(--t3); }
+.an-bot { display:grid; grid-template-columns:185px 1fr 1fr 200px; gap:12px; }
+.an-geo-grid { display:flex; flex-direction:column; gap:9px; }
+.an-geo-row { display:flex; align-items:center; gap:8px; }
+.an-geo-lbl { font-size:.7rem; color:var(--t2); width:85px; flex-shrink:0; }
+.an-geo-bw { flex:1; height:5px; background:var(--bdr); border-radius:3px; overflow:hidden; }
+.an-geo-b { height:100%; border-radius:3px; }
+.an-geo-val { font-size:.7rem; color:var(--t3); white-space:nowrap; }
+.an-tr-list { display:flex; flex-direction:column; gap:7px; }
+.an-tr-row { display:grid; grid-template-columns:85px 1fr auto; align-items:center; gap:8px; font-size:.7rem; color:var(--t2); }
+.an-tr-bw { height:4px; background:var(--bdr); border-radius:3px; overflow:hidden; }
+.an-tr-b { height:100%; background:var(--gold); border-radius:3px; }
+.an-legend { display:flex; flex-direction:column; gap:5px; flex:1; }
+.an-legend-item { display:flex; align-items:center; justify-content:space-between; font-size:.7rem; color:var(--t2); }
+.an-legend-dot { width:7px; height:7px; border-radius:50%; margin-right:5px; flex-shrink:0; }
+.an-feed { display:flex; flex-direction:column; gap:9px; max-height:190px; overflow-y:auto; }
+.an-feed-item { display:flex; gap:8px; align-items:flex-start; }
+.an-feed-ico { width:24px; height:24px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; }
+.an-feed-t { font-size:.7rem; color:var(--t2); line-height:1.4; }
+.an-feed-t2 { font-size:.65rem; color:var(--t3); margin-top:1px; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="s-logo" onclick="gP('dashboard')">NQ</div>
+  <div class="s-nav">
+    <div class="ni active" onclick="gN(this,'dashboard')">⊞<span class="tip">Dashboard</span></div>
+    <div class="ni" onclick="gN(this,'problems')">🔍<span class="tip">Browse Problems</span></div>
+    <div class="ni" onclick="gN(this,'submit')">✦<span class="tip">Submit Problem</span></div>
+    <div class="ni" onclick="gN(this,'solutions')">💡<span class="tip">Solutions</span></div>
+    <div class="ni" onclick="gN(this,'ai')">◈<span class="tip">AI Assistant</span></div>
+    <div class="ni" onclick="gN(this,'analytics')">📊<span class="tip">Analytics</span></div>
+  </div>
+  <div><div class="s-av">AJ</div></div>
+</nav>
+
+<div class="main">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="t-title">NASQ <span>NACIRE</span></div>
+    <div class="t-search">
+      <span style="color:var(--t3)">🔎</span>
+      <input type="text" placeholder="Search problems, solutions, sectors…" oninput="if(this.value.length>2)gN(nL()[1],'problems')">
+    </div>
+    <button class="btn o" onclick="gN(nL()[2],'submit')">+ Submit Problem</button>
+    <button class="btn" onclick="gN(nL()[4],'ai')">◈ Ask AI</button>
+  </div>
+
+  <!-- ── DASHBOARD ─────────────────────────────────── -->
+  <div class="page active" id="page-dashboard">
+    <!-- Hero -->
+    <div class="db-hero">
+      <div class="db-hero-l">
+        <div class="uae-flag"><div class="f-red"></div><div class="f-stripes"><div class="f-green"></div><div class="f-white"></div><div class="f-black"></div></div></div>
+        <div class="db-eyebrow">UAE Industry Intelligence Platform</div>
+        <h1>Where Industry <strong>Challenges</strong><br>Meet <strong>Solutions</strong></h1>
+        <p class="db-sub" style="margin-top:10px">A national knowledge hub connecting UAE enterprises across all sectors — powered by AI.</p>
+        <div style="display:flex;gap:10px;margin-top:20px">
+          <button class="btn lg" onclick="gN(nL()[2],'submit')">+ Post a Challenge</button>
+          <button class="btn o lg" onclick="gN(nL()[4],'ai')">◈ Ask AI</button>
+        </div>
+      </div>
+      <div class="db-hero-r">
+        <div class="db-hs"><span class="db-hs-num">1,284</span><span class="db-hs-lbl">Challenges Posted</span></div>
+        <div class="db-divider"></div>
+        <div class="db-hs"><span class="db-hs-num">876</span><span class="db-hs-lbl">Solutions Published</span></div>
+        <div class="db-divider"></div>
+        <div class="db-hs"><span class="db-hs-num">342</span><span class="db-hs-lbl">Companies Active</span></div>
+        <div class="db-divider"></div>
+        <div class="db-hs"><span class="db-hs-num" style="color:var(--green)">68%</span><span class="db-hs-lbl">Resolution Rate</span></div>
+      </div>
+    </div>
+
+    <!-- Stat cards with sparklines -->
+    <div class="db-stats">
+      <div class="db-sc"><div class="db-sc-top"><div><div class="db-sc-lbl">Problems Registered</div><div class="db-sc-val">1,284</div><div class="db-sc-chg">↑ 12% vs last month</div></div><div class="db-sc-ico" style="background:rgba(203,163,68,0.1);color:var(--gold)">🏭</div></div><div class="ch" style="height:44px;margin-top:12px"><canvas id="dsp1"></canvas></div></div>
+      <div class="db-sc"><div class="db-sc-top"><div><div class="db-sc-lbl">Solutions Published</div><div class="db-sc-val">876</div><div class="db-sc-chg">↑ 8% vs last month</div></div><div class="db-sc-ico" style="background:rgba(74,157,92,0.1);color:var(--green)">💡</div></div><div class="ch" style="height:44px;margin-top:12px"><canvas id="dsp2"></canvas></div></div>
+      <div class="db-sc"><div class="db-sc-top"><div><div class="db-sc-lbl">Active Companies</div><div class="db-sc-val">342</div><div class="db-sc-chg">↑ 23 joined this week</div></div><div class="db-sc-ico" style="background:rgba(79,152,255,0.1);color:var(--blue)">🏢</div></div><div class="ch" style="height:44px;margin-top:12px"><canvas id="dsp3"></canvas></div></div>
+      <div class="db-sc"><div class="db-sc-top"><div><div class="db-sc-lbl">Resolution Rate</div><div class="db-sc-val" style="color:var(--green)">68%</div><div class="db-sc-chg">↑ 5% improvement</div></div><div class="db-sc-ico" style="background:rgba(74,157,92,0.1);color:var(--green)">🤝</div></div><div class="ch" style="height:44px;margin-top:12px"><canvas id="dsp4"></canvas></div></div>
+    </div>
+
+    <!-- Main grid -->
+    <div class="db-grid">
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div class="slbl" style="margin-bottom:0">Recent Challenges</div>
+          <button class="btn o sm" onclick="gN(nL()[1],'problems')">View all →</button>
+        </div>
+        <div class="pills">
+          <div class="pill active" onclick="fS(this,'all','g1')"><span class="dot"></span>All</div>
+          <div class="pill pri" onclick="fS(this,'oil','g1')"><span class="dot"></span>Oil & Gas ⭐</div>
+          <div class="pill pri" onclick="fS(this,'energy','g1')"><span class="dot"></span>Energy ⭐</div>
+          <div class="pill" onclick="fS(this,'construction','g1')"><span class="dot"></span>Construction</div>
+          <div class="pill" onclick="fS(this,'healthcare','g1')"><span class="dot"></span>Healthcare</div>
+          <div class="pill" onclick="fS(this,'logistics','g1')"><span class="dot"></span>Logistics</div>
+        </div>
+        <div class="prob-grid" id="g1">
+          <div class="prob-card" data-sector="oil"><div class="prob-top"><span class="bdg gold">Oil & Gas</span><span class="bdg green">✓ Solved</span></div><div class="prob-title">Pipeline Corrosion Detection in Subsea Environments</div><div class="prob-desc">Conventional inspection methods are cost-prohibitive for deep-water pipelines in harsh saline environments.</div><div class="prob-footer"><div class="co-info"><div class="co-av">AD</div>ADNOC Group</div><div class="meta"><span>💡 3</span><span>👁 124</span><span>🌍 Global</span></div></div></div>
+          <div class="prob-card" data-sector="healthcare"><div class="prob-top"><span class="bdg blue">Healthcare</span><span class="bdg red">⚠ Open</span></div><div class="prob-title">Patient Data Interoperability Between Hospitals</div><div class="prob-desc">Fragmented records across public and private networks create delays in emergency care and duplicate diagnostics.</div><div class="prob-footer"><div class="co-info"><div class="anon-av">👤</div>Anonymous</div><div class="meta"><span>💡 1</span><span>👁 89</span><span>🇦🇪 UAE</span></div></div></div>
+          <div class="prob-card" data-sector="construction"><div class="prob-top"><span class="bdg teal">Construction</span><span class="bdg green">✓ Solved</span></div><div class="prob-title">Heat-Resistant Materials for Extreme UAE Climates</div><div class="prob-desc">Standard materials degrade under sustained 50°C+ temperatures, increasing maintenance costs significantly.</div><div class="prob-footer"><div class="co-info"><div class="co-av">AL</div>Aldar Properties</div><div class="meta"><span>💡 2</span><span>👁 201</span><span>🇦🇪 UAE</span></div></div></div>
+          <div class="prob-card" data-sector="logistics"><div class="prob-top"><span class="bdg teal">Logistics</span><span class="bdg red">⚠ Open</span></div><div class="prob-title">Last-Mile Delivery Failures During Peak Season</div><div class="prob-desc">Fulfillment drops below 78% during Ramadan and National Day due to address accuracy and driver shortages.</div><div class="prob-footer"><div class="co-info"><div class="anon-av">👤</div>Anonymous</div><div class="meta"><span>💡 0</span><span>👁 56</span><span>🌍 Global</span></div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="db-side-card">
+          <div class="db-card-title">Sectors at a Glance</div>
+          <div class="db-sec-bar"><div class="db-sec-info"><span class="bdg gold" style="font-size:10px">Oil & Gas</span><span class="db-sec-cnt">386</span></div><div class="db-bw"><div class="db-b" style="width:85%;background:var(--gold)"></div></div></div>
+          <div class="db-sec-bar"><div class="db-sec-info"><span class="bdg teal" style="font-size:10px">Construction</span><span class="db-sec-cnt">241</span></div><div class="db-bw"><div class="db-b" style="width:55%;background:var(--teal)"></div></div></div>
+          <div class="db-sec-bar"><div class="db-sec-info"><span class="bdg blue" style="font-size:10px">Healthcare</span><span class="db-sec-cnt">198</span></div><div class="db-bw"><div class="db-b" style="width:45%;background:var(--blue)"></div></div></div>
+          <div class="db-sec-bar"><div class="db-sec-info"><span class="bdg teal" style="font-size:10px">Logistics</span><span class="db-sec-cnt">172</span></div><div class="db-bw"><div class="db-b" style="width:39%;background:var(--teal)"></div></div></div>
+          <div class="db-sec-bar"><div class="db-sec-info"><span class="bdg blue" style="font-size:10px">Finance</span><span class="db-sec-cnt">156</span></div><div class="db-bw"><div class="db-b" style="width:35%;background:var(--blue)"></div></div></div>
+          <div class="db-sec-bar" style="margin-bottom:0"><div class="db-sec-info"><span class="bdg gold" style="font-size:10px">Energy</span><span class="db-sec-cnt">131</span></div><div class="db-bw"><div class="db-b" style="width:30%;background:var(--gold-lt)"></div></div></div>
+        </div>
+        <div class="db-side-card">
+          <div style="display:flex;justify-content:space-between;align-items:center"><div class="db-card-title">Live Activity</div><span class="live-dot">● LIVE</span></div>
+          <div style="margin-top:14px" id="dbFeed">
+            <div class="db-feed-item"><div class="db-dot" style="background:var(--green)"></div><div><div class="db-ft">New solution — <strong>Oil & Gas</strong></div><div class="db-ft2">2 min · ADNOC Group</div></div></div>
+            <div class="db-feed-item"><div class="db-dot" style="background:var(--gold)"></div><div><div class="db-ft">Company joined — <strong>Finance</strong></div><div class="db-ft2">5 min · Anonymous</div></div></div>
+            <div class="db-feed-item"><div class="db-dot" style="background:var(--red)"></div><div><div class="db-ft">Open problem — <strong>Healthcare</strong></div><div class="db-ft2">9 min · MedTech Arabia</div></div></div>
+            <div class="db-feed-item"><div class="db-dot" style="background:var(--blue)"></div><div><div class="db-ft">AI scenario — <strong>Logistics</strong></div><div class="db-ft2">12 min</div></div></div>
+            <div class="db-feed-item" style="margin-bottom:0"><div class="db-dot" style="background:var(--green)"></div><div><div class="db-ft">Resolved — <strong>Construction</strong></div><div class="db-ft2">18 min · Aldar</div></div></div>
+          </div>
+        </div>
+        <div class="db-side-card">
+          <div class="db-card-title" style="margin-bottom:12px">Quick Actions</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button class="btn" style="width:100%;justify-content:flex-start" onclick="gN(nL()[2],'submit')">✦ Submit a Challenge</button>
+            <button class="btn o" style="width:100%;justify-content:flex-start" onclick="gN(nL()[3],'solutions')">💡 Browse Solutions</button>
+            <button class="btn o" style="width:100%;justify-content:flex-start" onclick="gN(nL()[4],'ai')">◈ Ask AI Assistant</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BROWSE ─────────────────────────────────────── -->
+  <div class="page" id="page-problems">
+    <div class="slbl">Browse All Challenges</div>
+    <div class="pills">
+      <div class="pill active" onclick="fS(this,'all','g2')"><span class="dot"></span>All</div>
+      <div class="pill pri" onclick="fS(this,'oil','g2')"><span class="dot"></span>Oil & Gas</div>
+      <div class="pill pri" onclick="fS(this,'energy','g2')"><span class="dot"></span>Energy</div>
+      <div class="pill" onclick="fS(this,'construction','g2')"><span class="dot"></span>Construction</div>
+      <div class="pill" onclick="fS(this,'healthcare','g2')"><span class="dot"></span>Healthcare</div>
+      <div class="pill" onclick="fS(this,'finance','g2')"><span class="dot"></span>Finance</div>
+      <div class="pill" onclick="fS(this,'logistics','g2')"><span class="dot"></span>Logistics</div>
+    </div>
+    <div class="prob-grid" id="g2">
+      <div class="prob-card" data-sector="oil"><div class="prob-top"><span class="bdg gold">Oil & Gas</span><span class="bdg green">✓ Solved</span></div><div class="prob-title">Pipeline Corrosion Detection in Subsea Environments</div><div class="prob-desc">Conventional inspection methods are cost-prohibitive for deep-water pipelines.</div><div class="prob-footer"><div class="co-info"><div class="co-av">AD</div>ADNOC Group</div><div class="meta"><span>💡 3</span><span>👁 124</span></div></div></div>
+      <div class="prob-card" data-sector="healthcare"><div class="prob-top"><span class="bdg blue">Healthcare</span><span class="bdg red">⚠ Open</span></div><div class="prob-title">Patient Data Interoperability Across Hospital Networks</div><div class="prob-desc">Fragmented records create delays in emergency care and duplicate diagnostics.</div><div class="prob-footer"><div class="co-info"><div class="anon-av">👤</div>Anonymous</div><div class="meta"><span>💡 1</span><span>👁 89</span></div></div></div>
+      <div class="prob-card" data-sector="construction"><div class="prob-top"><span class="bdg teal">Construction</span><span class="bdg green">✓ Solved</span></div><div class="prob-title">Heat-Resistant Materials for Extreme UAE Climates</div><div class="prob-desc">Standard materials degrade under sustained 50°C+ temperatures.</div><div class="prob-footer"><div class="co-info"><div class="co-av">AL</div>Aldar Properties</div><div class="meta"><span>💡 2</span><span>👁 201</span></div></div></div>
+      <div class="prob-card" data-sector="logistics"><div class="prob-top"><span class="bdg teal">Logistics</span><span class="bdg red">⚠ Open</span></div><div class="prob-title">Last-Mile Delivery Failures During Peak Season</div><div class="prob-desc">Fulfillment drops below 78% during Ramadan and National Day seasons.</div><div class="prob-footer"><div class="co-info"><div class="anon-av">👤</div>Anonymous</div><div class="meta"><span>💡 0</span><span>👁 56</span></div></div></div>
+      <div class="prob-card" data-sector="oil"><div class="prob-top"><span class="bdg gold">Oil & Gas</span><span class="bdg red">⚠ Open</span></div><div class="prob-title">Reducing Methane Emissions from Offshore Flaring</div><div class="prob-desc">Regulatory pressure requires 40% reduction in methane by 2027 with minimal production impact.</div><div class="prob-footer"><div class="co-info"><div class="co-av">SH</div>SHALCO Energy</div><div class="meta"><span>💡 1</span><span>👁 77</span></div></div></div>
+      <div class="prob-card" data-sector="finance"><div class="prob-top"><span class="bdg blue">Finance</span><span class="bdg green">✓ Solved</span></div><div class="prob-title">AML Compliance Automation for Cross-Border Transactions</div><div class="prob-desc">Manual review processes cannot scale with international remittance volumes.</div><div class="prob-footer"><div class="co-info"><div class="co-av">EM</div>Emirates NBD</div><div class="meta"><span>💡 2</span><span>👁 143</span></div></div></div>
+    </div>
+  </div>
+
+  <!-- ── SUBMIT ──────────────────────────────────────── -->
+  <div class="page" id="page-submit">
+    <div class="form-wrap">
+      <div class="form-hd"><h2>Submit a Challenge</h2><p>Share your industry problem with the NACIRE community. Your challenge may already have a solution waiting.</p></div>
+      <div class="fg"><label class="fl">Industry Sector *</label><select class="fs"><option>— Select Sector —</option><option>⭐ Oil & Gas (Priority)</option><option>⭐ Energy & Utilities (Priority)</option><option>Construction & Infrastructure</option><option>Healthcare</option><option>Finance & Banking</option><option>Logistics & Supply Chain</option><option>Manufacturing</option><option>Technology</option><option>Tourism & Hospitality</option><option>Education</option></select></div>
+      <div class="fg"><label class="fl">Problem Title *</label><input type="text" class="fi" placeholder="A concise title describing the challenge…"></div>
+      <div class="fg"><label class="fl">Detailed Description *</label><textarea class="fta" placeholder="Describe the problem — context, impact, constraints, and what's been attempted…" style="min-height:130px"></textarea></div>
+      <div class="fg">
+        <label class="fl">Do you already have a solution?</label>
+        <div class="sol-types">
+          <div class="sol-tc" onclick="selSol(this)"><div class="ico">❌</div><div class="lbl">No Solution</div><div class="dsc">Seeking help</div></div>
+          <div class="sol-tc active" onclick="selSol(this)"><div class="ico">🆓</div><div class="lbl">Free Solution</div><div class="dsc">Share openly</div></div>
+          <div class="sol-tc" onclick="selSol(this)"><div class="ico">💰</div><div class="lbl">Paid Solution</div><div class="dsc">Commercial offer</div></div>
+        </div>
+      </div>
+      <div class="fg">
+        <label class="fl">Visibility & Privacy</label>
+        <div class="toggle-row"><div class="tgl-info"><strong>Anonymous Submission</strong><span>Your company name will not be displayed publicly</span></div><button class="tgl" onclick="this.classList.toggle('on')"></button></div>
+        <div class="toggle-row"><div class="tgl-info"><strong>Worldwide Visibility</strong><span>Allow international companies to view and respond</span></div><button class="tgl on" onclick="this.classList.toggle('on')"></button></div>
+      </div>
+      <div class="fg"><label class="fl">Geographic Scope</label><select class="fs"><option>UAE Only</option><option selected>UAE + GCC Region</option><option>Worldwide</option></select></div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button class="btn o" style="flex:1">Save as Draft</button>
+        <button class="btn" style="flex:2" onclick="showSuccess()">Submit Challenge →</button>
+      </div>
+      <div class="success-msg" id="successMsg">✓ Challenge submitted! The AI is scanning for similar problems and solutions…</div>
+    </div>
+  </div>
+
+  <!-- ── SOLUTIONS ──────────────────────────────────── -->
+  <div class="page" id="page-solutions">
+    <div class="slbl">Published Solutions</div>
+    <div class="sol-list">
+      <div class="sol-card"><div><span class="bdg green" style="margin-bottom:10px">Free Solution</span><div class="sol-title">AI-Powered Ultrasonic Corrosion Mapping for Subsea Pipelines</div><div class="sol-sum">Deploys autonomous underwater vehicles with multi-beam ultrasonic sensors and ML anomaly detection. Reduces inspection cost by 60% vs. manual diving operations.</div><div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="bdg gold">Oil & Gas</span><span style="font-size:.7rem;color:var(--t3)">🌍 Global · TechSolutions UAE</span></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px"><button class="upvote">▲ 47</button><span style="font-size:.7rem;color:var(--t3)">3 matches</span></div></div>
+      <div class="sol-card"><div><span class="bdg gold" style="margin-bottom:10px">Paid Solution</span><div class="sol-title">FHIR-Compliant Patient Data Exchange Platform</div><div class="sol-sum">Middleware integration using HL7 FHIR standards to create unified patient records. Includes consent management and UAE DHA compliance modules.</div><div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="bdg blue">Healthcare</span><span style="font-size:.7rem;color:var(--t3)">🇦🇪 UAE Market · MedTech Arabia</span></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px"><button class="upvote">▲ 31</button><span style="font-size:.7rem;color:var(--t3)">2 matches</span></div></div>
+      <div class="sol-card"><div><span class="bdg green" style="margin-bottom:10px">Free Solution</span><div class="sol-title">Aerogel-Based Composite Insulation Panels for Hot Climates</div><div class="sol-sum">Open-source specs for aerogel-reinforced panels maintaining integrity up to 65°C. Compatible with UAE building codes. Field-tested in 12 projects across Dubai and Abu Dhabi.</div><div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="bdg teal">Construction</span><span style="font-size:.7rem;color:var(--t3)">🌍 GCC · Aldar R&amp;D</span></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px"><button class="upvote">▲ 88</button><span style="font-size:.7rem;color:var(--t3)">1 match</span></div></div>
+    </div>
+  </div>
+
+  <!-- ── AI CHAT ─────────────────────────────────────── -->
+  <div class="page" id="page-ai">
+    <div class="chat-layout">
+      <div class="chat-main">
+        <div class="chat-hd">
+          <div class="ai-av">AI</div>
+          <div class="ai-status"><strong>NASQ AI Assistant</strong><span>Online — Scanning platform + global knowledge</span></div>
+          <button class="btn s sm" onclick="clearChat()">Clear</button>
+        </div>
+        <div class="chat-msgs" id="chatMsgs">
+          <div class="msg ai"><div class="m-av">AI</div><div class="m-bub">مرحباً — Hello! I'm the NASQ AI.<br><br>🔍 Find if your problem exists on the platform<br>💡 Discover solutions — UAE or globally<br>🧠 Generate scenario-based recommendations<br>➕ Guide you to submit a new challenge<br><br>What industry challenge can I help you explore?</div></div>
+        </div>
+        <div class="chat-input-area">
+          <textarea class="chat-inp" id="chatInput" placeholder="Describe your industry challenge…" rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg()}"></textarea>
+          <button class="send-btn" onclick="sendMsg()">➤</button>
+        </div>
+      </div>
+      <div class="chat-side">
+        <h4>💬 Suggested Queries</h4>
+        <div class="sug" onclick="useQ(this)">Equipment downtime in our oil refinery — is this a known issue?</div>
+        <div class="sug" onclick="useQ(this)">Free solutions for energy waste in UAE commercial buildings?</div>
+        <div class="sug" onclick="useQ(this)">Healthcare data sharing between hospitals?</div>
+        <div class="sug" onclick="useQ(this)">Logistics problems during Ramadan season?</div>
+        <h4 style="margin-top:18px">📊 Top Sectors</h4>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+          <div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--t2)"><span>Oil & Gas</span><span style="color:var(--gold);font-weight:700">386</span></div>
+          <div style="height:4px;background:var(--bdr);border-radius:2px"><div style="width:85%;height:100%;background:var(--gold);border-radius:2px"></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--t2)"><span>Construction</span><span style="color:var(--teal);font-weight:700">241</span></div>
+          <div style="height:4px;background:var(--bdr);border-radius:2px"><div style="width:55%;height:100%;background:var(--teal);border-radius:2px"></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--t2)"><span>Healthcare</span><span style="color:var(--blue);font-weight:700">198</span></div>
+          <div style="height:4px;background:var(--bdr);border-radius:2px"><div style="width:43%;height:100%;background:var(--blue);border-radius:2px"></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--t2)"><span>Logistics</span><span style="color:var(--green);font-weight:700">172</span></div>
+          <div style="height:4px;background:var(--bdr);border-radius:2px"><div style="width:38%;height:100%;background:var(--green);border-radius:2px"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ANALYTICS ──────────────────────────────────── -->
+  <div class="page" id="page-analytics">
+    <div class="an-hd">
+      <div><div class="an-eyebrow">Analytics Overview</div><div class="an-title">Platform Intelligence</div></div>
+      <div class="an-chips">
+        <div class="an-chip cw">⚠ 203 Open Problems</div>
+        <div class="an-chip ce">12 Errors Today</div>
+        <div class="an-chip co">234 Resolved This Week</div>
+        <div class="an-chip ci">62 New Solutions</div>
+      </div>
+    </div>
+    <div class="an-stat-row">
+      <div class="an-sb"><div class="an-lbl">Active Companies</div><div class="an-num" style="color:var(--gold)">713,248 <span class="an-b g">↑ 2.4%</span></div><div class="ch" style="height:36px;margin-top:8px"><canvas id="sp1"></canvas></div></div>
+      <div class="an-sb"><div class="an-lbl">Platform Events (30d)</div><div class="an-num">12,491 <span class="an-b g">↑ 0.4%</span></div><div class="ch" style="height:36px;margin-top:8px"><canvas id="sp2"></canvas></div></div>
+      <div class="an-sb"><div class="an-lbl">New Users (7d)</div><div class="an-num">2,164 <span class="an-b r">↓ 3.4%</span></div><div class="ch" style="height:36px;margin-top:8px"><canvas id="sp3"></canvas></div></div>
+      <div class="an-goals">
+        <div class="an-goals-top"><div><div class="an-lbl">Goals Completed</div><div class="an-goals-big">78</div></div><div class="an-ring-w"><svg viewBox="0 0 36 36" class="an-ring"><circle cx="18" cy="18" r="15.9" fill="none" stroke="#E1E3E5" stroke-width="3"/><circle cx="18" cy="18" r="15.9" fill="none" stroke="#CBA344" stroke-width="3" stroke-dasharray="70 30" stroke-dashoffset="25" stroke-linecap="round"/></svg><span class="an-ring-lbl">70%</span></div></div>
+        <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--t3);margin-bottom:4px"><span>Active Tracking</span><span style="color:var(--gold);font-weight:600">56 <span style="background:var(--green-bg);color:var(--green);padding:1px 5px;border-radius:3px;font-size:10px">32%</span></span></div>
+        <div class="an-prog"><div style="width:56%"></div></div>
+      </div>
+    </div>
+    <div class="an-main">
+      <div class="an-card">
+        <div class="an-card-hd"><div><div class="an-card-t">Platform Activity</div><div class="an-card-s">Problems · Solutions · AI Events — last 7 days</div></div><div class="an-tabs"><span class="an-tab active" onclick="swTab(this)">7 days</span><span class="an-tab" onclick="swTab(this)">30 days</span></div></div>
+        <div class="ch" style="height:160px"><canvas id="actChart"></canvas></div>
+        <div class="an-sum">
+          <div class="an-sum-item"><div class="an-sum-dot" style="background:var(--gold)"></div><div><div class="an-sum-val">12,423</div><div class="an-sum-lbl">Problems</div></div></div>
+          <div class="an-sum-item"><div class="an-sum-dot" style="background:var(--green)"></div><div><div class="an-sum-val">31,868</div><div class="an-sum-lbl">Solutions</div></div></div>
+          <div class="an-sum-item"><div class="an-sum-dot" style="background:var(--blue)"></div><div><div class="an-sum-val">573,133</div><div class="an-sum-lbl">AI Sessions</div></div></div>
+        </div>
+      </div>
+      <div class="an-right">
+        <div class="an-card"><div class="an-card-hd"><div><div class="an-card-t">Active Users Now</div><div class="an-card-s">Last 30 minutes</div></div><span class="live-dot">● LIVE</span></div><div class="an-live-big" id="liveCount">16,248</div><div class="ch" style="height:56px"><canvas id="liveChart"></canvas></div><div class="an-region-list"><div class="an-region-row"><span>UAE</span><span style="color:var(--gold);font-weight:600">7,687</span></div><div class="an-region-row"><span>Saudi Arabia</span><span style="font-weight:600">4,231</span></div><div class="an-region-row"><span>Qatar / GCC</span><span style="font-weight:600">2,983</span></div></div></div>
+        <div class="an-card"><div class="an-card-hd"><div class="an-card-t">Weekly Sessions</div></div><div class="ch" style="height:76px"><canvas id="sessChart"></canvas></div><div style="text-align:center;margin-top:8px"><div style="font-family:var(--fH);font-size:1.4rem;font-weight:800;color:var(--gold)">68.40%</div><div style="font-size:.7rem;color:var(--t3)">Completion rate · Last 7 days</div></div></div>
+      </div>
+    </div>
+    <div class="an-bot">
+      <div class="an-card"><div class="an-card-hd"><div class="an-card-t">By Sector</div></div><div style="display:flex;gap:10px;align-items:center"><canvas id="donutChart" width="100" height="100" style="flex-shrink:0"></canvas><div class="an-legend" id="donutLegend"></div></div></div>
+      <div class="an-card"><div class="an-card-hd"><div class="an-card-t">Geographic Reach</div></div><div class="an-geo-grid"><div class="an-geo-row"><div class="an-geo-lbl">🇦🇪 UAE</div><div class="an-geo-bw"><div class="an-geo-b" style="width:92%;background:var(--gold)"></div></div><div class="an-geo-val" style="color:var(--gold);font-weight:600">56,687</div></div><div class="an-geo-row"><div class="an-geo-lbl">🇸🇦 Saudi</div><div class="an-geo-bw"><div class="an-geo-b" style="width:55%;background:var(--green)"></div></div><div class="an-geo-val">31,229</div></div><div class="an-geo-row"><div class="an-geo-lbl">🇶🇦 Qatar</div><div class="an-geo-bw"><div class="an-geo-b" style="width:24%;background:var(--blue)"></div></div><div class="an-geo-val">13,983</div></div><div class="an-geo-row"><div class="an-geo-lbl">🌍 Other MENA</div><div class="an-geo-bw"><div class="an-geo-b" style="width:7%;background:var(--bdr2)"></div></div><div class="an-geo-val">3,766</div></div></div></div>
+      <div class="an-card"><div class="an-card-hd"><div class="an-card-t">Traffic Sources</div></div><div class="an-tr-list"><div class="an-tr-row"><span>Direct</span><div class="an-tr-bw"><div class="an-tr-b" style="width:60%"></div></div><span>11,231 <span style="color:var(--green)">↑19%</span></span></div><div class="an-tr-row"><span>Organic</span><div class="an-tr-bw"><div class="an-tr-b" style="width:100%"></div></div><span>31,454 <span style="color:var(--green)">↑7%</span></span></div><div class="an-tr-row"><span>Social</span><div class="an-tr-bw"><div class="an-tr-b" style="width:15%;background:var(--blue)"></div></div><span>4,983 <span style="color:var(--red)">↓4%</span></span></div><div class="an-tr-row"><span>Internal</span><div class="an-tr-bw"><div class="an-tr-b" style="width:75%;background:var(--teal)"></div></div><span>56,687 <span style="color:var(--green)">↑36%</span></span></div><div class="an-tr-row"><span>Referral</span><div class="an-tr-bw"><div class="an-tr-b" style="width:6%;background:var(--bdr2)"></div></div><span>2,000 <span style="color:var(--green)">↑9%</span></span></div></div></div>
+      <div class="an-card"><div class="an-card-hd"><div class="an-card-t">Live Activity</div><span class="live-dot">● LIVE</span></div><div class="an-feed" id="anFeed"><div class="an-feed-item"><span class="an-feed-ico" style="background:var(--green-bg);color:var(--green)">✓</span><div><div class="an-feed-t">Solution posted — <strong>Oil & Gas</strong></div><div class="an-feed-t2">just now · ADNOC</div></div></div><div class="an-feed-item"><span class="an-feed-ico" style="background:var(--red-bg);color:var(--red)">!</span><div><div class="an-feed-t">Open problem — <strong>Construction</strong></div><div class="an-feed-t2">just now · Anonymous</div></div></div><div class="an-feed-item"><span class="an-feed-ico" style="background:var(--blue-bg);color:var(--blue)">◈</span><div><div class="an-feed-t">AI scenario — <strong>Finance</strong></div><div class="an-feed-t2">just now</div></div></div><div class="an-feed-item"><span class="an-feed-ico" style="background:rgba(203,163,68,0.12);color:var(--gold-dk)">🏢</span><div><div class="an-feed-t">Company joined — <strong>Energy</strong></div><div class="an-feed-t2">just now</div></div></div></div></div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// ── NAV ────────────────────────────────────────────────
+function nL(){return document.querySelectorAll('.ni')}
+function gP(n){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+n).classList.add('active')}
+function gN(el,page){nL().forEach(n=>n.classList.remove('active'));if(el)el.classList.add('active');gP(page);if(page==='analytics')setTimeout(initCharts,60)}
+
+// ── FILTER ─────────────────────────────────────────────
+function fS(el,s,gid){el.closest('.pills').querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));el.classList.add('active');document.querySelectorAll('#'+gid+' .prob-card').forEach(c=>{c.style.display=(s==='all'||c.dataset.sector===s)?'':'none'})}
+
+// ── FORM ───────────────────────────────────────────────
+function selSol(el){el.closest('.sol-types').querySelectorAll('.sol-tc').forEach(c=>c.classList.remove('active'));el.classList.add('active')}
+function showSuccess(){const a=document.getElementById('successMsg');a.style.display='block';setTimeout(()=>gN(nL()[4],'ai'),2000)}
+function swTab(el){el.closest('.an-tabs').querySelectorAll('.an-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active')}
+
+// ── CHAT ───────────────────────────────────────────────
+const RS=[
+  {kw:['corrosion','pipeline','subsea'],r:`Found a <strong>direct match</strong>:\n\n<div class="res-card"><div style="display:flex;justify-content:space-between"><div><div class="res-card-title">Pipeline Corrosion Detection in Subsea Environments</div><div class="res-card-meta"><span>Oil & Gas</span><span style="color:#4A9D5C">3 Solutions Available</span></div></div><span class="match-pct">94%</span></div></div>\n\n3 solutions including a free AI-powered ultrasonic mapping approach (60% cost reduction). Would you like details?`},
+  {kw:['delivery','logistics','last mile','ramadan'],r:`Found a <strong>partial match</strong>:\n\n<div class="res-card"><div style="display:flex;justify-content:space-between"><div><div class="res-card-title">Last-Mile Delivery Failures During Peak Season</div><div class="res-card-meta"><span>Logistics</span><span style="color:#D83731">No solution yet</span></div></div><span class="match-pct">81%</span></div></div>\n\n🌍 Global case: dynamic driver micro-incentive systems showed 23% improvement. Shall I generate a full scenario?`},
+  {kw:['healthcare','patient','data','hospital'],r:`Found a <strong>close match</strong>:\n\n<div class="res-card"><div style="display:flex;justify-content:space-between"><div><div class="res-card-title">Patient Data Interoperability Across Hospital Networks</div><div class="res-card-meta"><span>Healthcare</span><span style="color:#4F98FF">1 Paid Solution</span></div></div><span class="match-pct">89%</span></div></div>\n\nFHIR-compliant middleware from MedTech Arabia with UAE DHA compliance. Shall I proceed?`},
+];
+const FB=`I searched NACIRE and did <strong>not find an exact match</strong>.\n\n🧠 I can:\n• Generate a scenario-based solution\n• Help you post this as a new challenge\n• Alert similar companies\n\nWhich would you prefer?`;
+
+function sendMsg(){const i=document.getElementById('chatInput');const v=i.value.trim();if(!v)return;addMsg('u',v);i.value='';const t=addTyping();setTimeout(()=>{removeTyping(t);const txt=v.toLowerCase();const m=RS.find(r=>r.kw.some(k=>txt.includes(k)));addMsg('ai',m?m.r:FB)},1300)}
+function addMsg(role,c){const el=document.getElementById('chatMsgs');const d=document.createElement('div');d.className='msg '+role;d.innerHTML=`<div class="m-av">${role==='ai'?'AI':'AJ'}</div><div class="m-bub">${c.replace(/\n/g,'<br>')}</div>`;el.appendChild(d);el.scrollTop=el.scrollHeight}
+let tc=0;
+function addTyping(){const id='t'+(++tc);const el=document.getElementById('chatMsgs');const d=document.createElement('div');d.className='msg ai';d.id=id;d.innerHTML=`<div class="m-av">AI</div><div class="m-bub"><div class="typing"><span></span><span></span><span></span></div></div>`;el.appendChild(d);el.scrollTop=el.scrollHeight;return id}
+function removeTyping(id){const e=document.getElementById(id);if(e)e.remove()}
+function clearChat(){document.getElementById('chatMsgs').innerHTML='';addMsg('ai','Chat cleared. What challenge can I help you explore?')}
+function useQ(el){const i=document.getElementById('chatInput');i.value=el.textContent.trim();i.focus()}
+
+// ── CHARTS ─────────────────────────────────────────────
+const NO={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}},animation:{duration:0}};
+
+function mkSpark(id,data,color){const ctx=document.getElementById(id);if(!ctx)return;new Chart(ctx,{type:'line',data:{labels:data.map((_,i)=>i),datasets:[{data,borderColor:color,borderWidth:2,pointRadius:0,fill:true,backgroundColor:color+'18',tension:0.4}]},options:NO})}
+
+// Dashboard sparklines — init on load
+window.addEventListener('load',()=>{
+  mkSpark('dsp1',[820,890,840,960,1020,980,1100,1050,1150,1200,1240,1284],'#CBA344');
+  mkSpark('dsp2',[590,620,650,700,720,760,790,810,840,855,870,876],'#4A9D5C');
+  mkSpark('dsp3',[280,295,300,310,318,320,328,333,336,339,341,342],'#4F98FF');
+  mkSpark('dsp4',[60,61,63,62,64,65,65,66,67,67,68,68],'#4A9D5C');
+  // Dashboard live feed
+  const evs=[{c:'var(--green)',t:'Solution posted — <strong>Oil & Gas</strong>',t2:'just now · ADNOC'},{c:'var(--red)',t:'Open problem — <strong>Healthcare</strong>',t2:'just now · Anonymous'},{c:'var(--blue)',t:'AI scenario — <strong>Finance</strong>',t2:'just now'},{c:'var(--gold)',t:'Company joined — <strong>Energy</strong>',t2:'just now'},{c:'var(--green)',t:'Resolved — <strong>Construction</strong>',t2:'just now · Aldar'}];
+  let fi=0;
+  setInterval(()=>{
+    const f=document.getElementById('dbFeed');if(!f)return;
+    const item=evs[fi++%evs.length];
+    const d=document.createElement('div');d.className='db-feed-item';d.style.opacity='0';d.style.transition='opacity .4s';
+    d.innerHTML=`<div class="db-dot" style="background:${item.c}"></div><div><div class="db-ft">${item.t}</div><div class="db-ft2">${item.t2}</div></div>`;
+    f.insertBefore(d,f.firstChild);setTimeout(()=>{d.style.opacity='1'},40);
+    if(f.children.length>5)f.removeChild(f.lastChild);
+  },4000);
+});
+
+// Analytics charts — init when tab opened
+let chartsReady=false;
+function initCharts(){
+  if(chartsReady)return;chartsReady=true;
+  const G='#E1E3E5',T='#797E86';
+  mkSpark('sp1',[40,55,48,62,58,71,65,80,74,88,82,95],'#CBA344');
+  mkSpark('sp2',[30,28,35,42,38,45,50,47,55,52,60,58],'#4A9D5C');
+  mkSpark('sp3',[60,55,50,58,45,40,48,38,35,42,30,28],'#D83731');
+
+  const ac=document.getElementById('actChart');
+  if(ac)new Chart(ac,{type:'line',data:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],datasets:[
+    {label:'This week',data:[120,185,140,210,175,230,195],borderColor:'#CBA344',backgroundColor:'rgba(203,163,68,0.07)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#CBA344',fill:true,tension:0.4},
+    {label:'Previous', data:[90,140,110,160,130,180,150],borderColor:'#C3C6CB',backgroundColor:'transparent',borderWidth:1.5,borderDash:[4,4],pointRadius:0,fill:false,tension:0.4},
+    {label:'AI Events',data:[30,50,42,68,58,80,65],borderColor:'#4A9D5C',backgroundColor:'rgba(74,157,92,0.06)',borderWidth:2,pointRadius:2,pointBackgroundColor:'#4A9D5C',fill:true,tension:0.4}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:T,font:{size:10},boxWidth:10}}},scales:{x:{grid:{color:G},ticks:{color:T,font:{size:10}}},y:{grid:{color:G},ticks:{color:T,font:{size:10}}}}}});
+
+  const lv=document.getElementById('liveChart');
+  const ld=Array.from({length:20},()=>Math.floor(10+Math.random()*55));
+  let lc;
+  if(lv){
+    lc=new Chart(lv,{type:'bar',data:{labels:ld.map((_,i)=>i),datasets:[{data:ld,backgroundColor:ld.map((_,i,a)=>i===a.length-1?'#CBA344':'rgba(203,163,68,0.25)'),borderRadius:2,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}},animation:{duration:300}}});
+    setInterval(()=>{
+      lc.data.datasets[0].data.shift();
+      const v=Math.floor(10+Math.random()*65);
+      lc.data.datasets[0].data.push(v);
+      lc.data.datasets[0].backgroundColor=lc.data.datasets[0].data.map((_,i,a)=>i===a.length-1?'#CBA344':'rgba(203,163,68,0.25)');
+      lc.update('none');
+      const el=document.getElementById('liveCount');
+      if(el)el.textContent=(14000+Math.floor(Math.random()*4000)).toLocaleString();
+    },2800);
+  }
+
+  const sc=document.getElementById('sessChart');
+  if(sc)new Chart(sc,{type:'bar',data:{labels:['M','T','W','T','F','S','S'],datasets:[{data:[280,390,340,440,360,180,120],backgroundColor:['rgba(203,163,68,0.3)','rgba(203,163,68,0.3)','rgba(203,163,68,0.3)','#CBA344','rgba(203,163,68,0.3)','rgba(193,198,203,0.5)','rgba(193,198,203,0.5)'],borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{grid:{display:false},ticks:{color:T,font:{size:9}}},y:{grid:{color:G},ticks:{color:T,font:{size:9}}}}}});
+
+  const sC=['#CBA344','#4A9D5C','#4F98FF','#00ABEB','#D83731','#D7BC6D','#9EA2A9'];
+  const sL=['Oil & Gas','Construction','Healthcare','Finance','Logistics','Energy','Other'];
+  const sD=[386,241,198,156,172,131,89];
+  const dc=document.getElementById('donutChart');
+  if(dc)new Chart(dc,{type:'doughnut',data:{labels:sL,datasets:[{data:sD,backgroundColor:sC,borderWidth:2,borderColor:'#fff'}]},options:{responsive:false,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{display:false}}}});
+  const leg=document.getElementById('donutLegend');
+  if(leg)sL.forEach((l,i)=>{const pct=Math.round(sD[i]/sD.reduce((a,b)=>a+b,0)*100);leg.innerHTML+=`<div class="an-legend-item"><span style="display:flex;align-items:center"><span class="an-legend-dot" style="background:${sC[i]}"></span>${l}</span><span style="color:${sC[i]};font-weight:600">${pct}%</span></div>`});
+
+  const aEvs=[{ico:'✓',bg:'var(--green-bg)',col:'var(--green)',t:'Solution posted — <strong>Oil & Gas</strong>',t2:'just now · ADNOC'},{ico:'!',bg:'var(--red-bg)',col:'var(--red)',t:'Open problem — <strong>Construction</strong>',t2:'just now'},{ico:'◈',bg:'var(--blue-bg)',col:'var(--blue)',t:'AI scenario — <strong>Finance</strong>',t2:'just now'},{ico:'🏢',bg:'rgba(203,163,68,0.12)',col:'var(--gold-dk)',t:'Company joined — <strong>Energy</strong>',t2:'just now'},{ico:'✓',bg:'var(--green-bg)',col:'var(--green)',t:'Resolved — <strong>Logistics</strong>',t2:'just now · DP World'}];
+  let afi=0;
+  setInterval(()=>{
+    const f=document.getElementById('anFeed');if(!f)return;
+    const item=aEvs[afi++%aEvs.length];
+    const d=document.createElement('div');d.className='an-feed-item';d.style.opacity='0';d.style.transition='opacity .4s';
+    d.innerHTML=`<span class="an-feed-ico" style="background:${item.bg};color:${item.col}">${item.ico}</span><div><div class="an-feed-t">${item.t}</div><div class="an-feed-t2">${item.t2}</div></div>`;
+    f.insertBefore(d,f.firstChild);setTimeout(()=>{d.style.opacity='1'},40);
+    if(f.children.length>5)f.removeChild(f.lastChild);
+  },3500);
+}
+</script>
+</body>
+</html>

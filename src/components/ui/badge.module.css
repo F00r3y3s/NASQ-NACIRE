@@ -1,0 +1,41 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+}
+
+.gold {
+  background: rgba(203, 163, 68, 0.12);
+  border-color: rgba(203, 163, 68, 0.3);
+  color: var(--gold-dk);
+}
+
+.green {
+  background: var(--green-bg);
+  border-color: rgba(74, 157, 92, 0.3);
+  color: var(--green);
+}
+
+.red {
+  background: var(--red-bg);
+  border-color: rgba(216, 55, 49, 0.3);
+  color: var(--red);
+}
+
+.blue {
+  background: var(--blue-bg);
+  border-color: rgba(79, 152, 255, 0.3);
+  color: var(--blue);
+}
+
+.teal {
+  background: var(--teal-bg);
+  border-color: rgba(0, 171, 235, 0.3);
+  color: var(--teal);
+}
+

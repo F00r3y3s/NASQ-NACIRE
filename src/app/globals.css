@@ -1,0 +1,133 @@
+:root {
+  --font-heading: "Inter";
+  --font-body: "Roboto";
+  --font-arabic: "Noto Kufi Arabic";
+  --gold: #cba344;
+  --gold-lt: #d7bc6d;
+  --gold-dk: #92722a;
+  --gold-pale: #f9f7ed;
+  --bg: #f7f7f7;
+  --white: #ffffff;
+  --surf2: #f1f3f5;
+  --bdr: #e1e3e5;
+  --bdr2: #c3c6cb;
+  --t1: #1b1d21;
+  --t2: #4b4f58;
+  --t3: #797e86;
+  --green: #4a9d5c;
+  --green-dk: #2f6f3c;
+  --green-bg: #f3faf4;
+  --red: #d83731;
+  --red-bg: #fef2f2;
+  --blue: #4f98ff;
+  --blue-bg: #e7f5ff;
+  --teal: #00abeb;
+  --teal-bg: #effaff;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
+  --radius-pill: 999px;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-lift: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-float: 0 6px 20px rgba(0, 0, 0, 0.1);
+  --shadow-gold: 0 2px 8px rgba(203, 163, 68, 0.3);
+  --focus-ring: 0 0 0 3px rgba(203, 163, 68, 0.24);
+  --page-width: 1280px;
+  --transition-fast: 0.15s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--t1);
+  color-scheme: light only;
+}
+
+body {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bdr2);
+  border-radius: 10px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skipLink {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 300;
+  border-radius: var(--radius-sm);
+  background: var(--t1);
+  color: var(--white);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 10px 14px;
+  transform: translateY(-150%);
+  transition: transform var(--transition-fast);
+}
+
+.skipLink:focus-visible {
+  transform: translateY(0);
+}
+
+.app-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top right, rgba(203, 163, 68, 0.12), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(247, 247, 247, 0.96) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

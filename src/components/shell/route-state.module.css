@@ -1,0 +1,120 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.heroCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeletonLine,
+.skeletonBlock {
+  position: relative;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surf2) 82%, var(--white));
+}
+
+.skeletonLine::after,
+.skeletonBlock::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.72) 45%,
+    transparent 100%
+  );
+  animation: shimmer 1.2s linear infinite;
+  transform: translateX(-100%);
+}
+
+.skeletonLine {
+  height: 12px;
+}
+
+.lineShort {
+  width: 26%;
+  min-width: 120px;
+}
+
+.lineMedium {
+  width: 58%;
+}
+
+.lineLong {
+  width: 84%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 180px;
+}
+
+.skeletonBlock {
+  height: 108px;
+  border-radius: var(--radius-lg);
+}
+
+.listStack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.listItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 15px;
+  border: 1px solid var(--bdr);
+  border-radius: var(--radius-md);
+  background: var(--white);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+@keyframes shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .actions {
+    width: 100%;
+  }
+
+  .actions > * {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .lineMedium,
+  .lineLong {
+    width: 100%;
+  }
+}

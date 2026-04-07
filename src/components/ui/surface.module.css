@@ -1,0 +1,41 @@
+.surface {
+  background: var(--white);
+  border: 1px solid var(--bdr);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.defaultTone {
+  background: var(--white);
+}
+
+.heroTone {
+  background: linear-gradient(135deg, var(--gold-pale), var(--white) 70%);
+  border-color: rgba(203, 163, 68, 0.2);
+}
+
+.mutedTone {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(241, 243, 245, 0.92));
+}
+
+.paddingMd {
+  padding: 1.25rem;
+}
+
+.paddingLg {
+  padding: 2rem;
+}
+
+.interactive {
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.interactive:hover {
+  border-color: var(--gold-lt);
+  box-shadow: var(--shadow-lift);
+  transform: translateY(-2px);
+}
+

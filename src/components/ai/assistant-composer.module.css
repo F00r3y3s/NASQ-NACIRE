@@ -1,0 +1,64 @@
+.composer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.notice {
+  border: 1px solid var(--bdr);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.noticeError {
+  border-color: color-mix(in srgb, var(--red) 18%, var(--bdr));
+  background: color-mix(in srgb, var(--red) 9%, var(--white));
+  color: var(--red);
+}
+
+.fieldError {
+  margin: 0;
+  color: var(--red);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.inputRow {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.promptField {
+  min-height: 84px;
+  background: var(--surf2);
+}
+
+.promptField:disabled {
+  background: color-mix(in srgb, var(--surf2) 70%, var(--white));
+}
+
+.submitButton {
+  min-width: 124px;
+}
+
+.helperText {
+  margin: 0;
+  color: var(--t3);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 720px) {
+  .inputRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .submitButton {
+    width: 100%;
+  }
+}

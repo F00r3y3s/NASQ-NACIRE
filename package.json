@@ -1,0 +1,46 @@
+{
+  "name": "nasq-nacire",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "e2e:serve": "npm run build && next start --hostname 127.0.0.1 --port 3100",
+    "security:audit": "npm audit --audit-level=high",
+    "lint": "eslint src tests",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:verify": "npm run test:unit && npm run test:integration && npm run test:e2e && npm run lint && npm run typecheck"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "overrides": {
+    "vite": "8.0.5"
+  },
+  "dependencies": {
+    "@supabase/ssr": "0.10.0",
+    "@supabase/supabase-js": "2.101.1",
+    "next": "16.2.2",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "25.5.2",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitest/coverage-v8": "^4.1.2",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.2.2",
+    "supabase": "^2.85.0",
+    "typescript": "6.0.2",
+    "vitest": "4.1.2"
+  }
+}

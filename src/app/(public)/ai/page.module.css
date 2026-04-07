@@ -1,0 +1,166 @@
+.actionGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.noticeSuccess,
+.noticeError {
+  border: 1px solid var(--bdr);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.noticeSuccess {
+  border-color: color-mix(in srgb, var(--teal) 38%, var(--bdr));
+  background: color-mix(in srgb, var(--teal) 8%, var(--white));
+  color: var(--t2);
+}
+
+.noticeError {
+  border-color: color-mix(in srgb, var(--red) 18%, var(--bdr));
+  background: color-mix(in srgb, var(--red) 9%, var(--white));
+  color: var(--red);
+}
+
+.messageMeta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--t3);
+  font-size: 0.72rem;
+}
+
+.messageBody {
+  margin: 8px 0 0;
+  white-space: pre-wrap;
+}
+
+.citationList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.citationLink {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--bdr);
+  border-radius: 999px;
+  background: var(--surf2);
+  color: var(--t2);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 6px 10px;
+  transition:
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.citationLink:hover {
+  border-color: var(--gold);
+  color: var(--gold-dk);
+  transform: translateY(-1px);
+}
+
+.sideHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.sideLink {
+  color: var(--gold-dk);
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.draftAssistForm {
+  display: flex;
+  margin-top: 14px;
+}
+
+.sideMeta {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.sideMetaItem {
+  border: 1px solid var(--bdr);
+  border-radius: 12px;
+  background: var(--surf2);
+  padding: 12px 14px;
+}
+
+.sideMetaLabel {
+  color: var(--t3);
+  font-size: 0.74rem;
+  margin-bottom: 4px;
+}
+
+.sideMetaValue {
+  color: var(--t1);
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.threadList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.threadLink {
+  display: block;
+  border: 1px solid var(--bdr);
+  border-radius: 16px;
+  background: var(--surf2);
+  padding: 12px 14px;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.threadLink:hover {
+  border-color: var(--gold);
+  background: var(--gold-pale);
+  transform: translateY(-1px);
+}
+
+.threadLinkActive {
+  border-color: color-mix(in srgb, var(--gold) 48%, var(--bdr));
+  background: color-mix(in srgb, var(--gold) 11%, var(--white));
+}
+
+.threadTitleRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.threadTitle {
+  color: var(--t1);
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.threadScope,
+.threadMeta {
+  color: var(--t3);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}

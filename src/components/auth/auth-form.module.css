@@ -1,0 +1,45 @@
+.notice {
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.noticeInfo {
+  border: 1px solid color-mix(in srgb, var(--blue) 20%, white);
+  background: color-mix(in srgb, var(--blue) 10%, white);
+  color: var(--blue-dk);
+}
+
+.noticeError {
+  border: 1px solid color-mix(in srgb, var(--red) 24%, white);
+  background: color-mix(in srgb, var(--red) 10%, white);
+  color: var(--red-dk);
+}
+
+.tabRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.helperText {
+  margin: 0;
+  color: var(--t3);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.fieldError {
+  margin: 0;
+  color: var(--red-dk);
+  font-size: 0.76rem;
+}
+
+.buttonRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+

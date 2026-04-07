@@ -1,0 +1,267 @@
+.grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.1fr);
+  gap: 16px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.listPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.listLink {
+  display: block;
+  padding: 14px 15px;
+  border: 1.5px solid var(--bdr);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.listLink:hover {
+  border-color: var(--gold);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-1px);
+}
+
+.listLinkSelected {
+  border-color: var(--gold);
+  box-shadow: var(--shadow-gold);
+}
+
+.listTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.listTitle {
+  color: var(--t1);
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.listSubtitle {
+  margin-top: 4px;
+  color: var(--t2);
+  font-size: 0.77rem;
+  line-height: 1.5;
+}
+
+.listMeta {
+  margin-top: 8px;
+  color: var(--t3);
+  font-size: 0.72rem;
+}
+
+.notice {
+  padding: 13px 14px;
+  border-radius: 12px;
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.noticeSuccess {
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+.noticeError {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+.helperText {
+  margin: 0;
+  color: var(--t3);
+  font-size: 0.73rem;
+  line-height: 1.55;
+}
+
+.fieldError {
+  margin: 0;
+  color: var(--red);
+  font-size: 0.72rem;
+}
+
+.formStack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.summaryItem {
+  padding: 12px 13px;
+  border: 1px solid var(--bdr);
+  border-radius: 12px;
+  background: var(--surf2);
+}
+
+.summaryLabel {
+  color: var(--t3);
+  font-size: 0.72rem;
+}
+
+.summaryValue {
+  margin-top: 4px;
+  color: var(--t1);
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.buttonRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.toggleCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1.5px solid var(--bdr);
+  border-radius: var(--radius-md);
+  background: var(--white);
+}
+
+.toggleLabel {
+  color: var(--t1);
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.toggleHint {
+  display: block;
+  margin-top: 3px;
+  color: var(--t3);
+  font-size: 0.73rem;
+}
+
+.toggleInput {
+  width: 18px;
+  height: 18px;
+}
+
+.inlineForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.memberCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 13px 14px;
+  border: 1px solid var(--bdr);
+  border-radius: 12px;
+  background: var(--white);
+}
+
+.memberHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.memberTitle {
+  color: var(--t1);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.memberMeta {
+  color: var(--t3);
+  font-size: 0.73rem;
+}
+
+.feedList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.feedItem {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--bdr);
+}
+
+.feedItem:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.feedText {
+  color: var(--t1);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.feedMeta {
+  margin-top: 3px;
+  color: var(--t3);
+  font-size: 0.72rem;
+}
+
+@media (max-width: 960px) {
+  .grid,
+  .metaGrid,
+  .summaryGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .listTop,
+  .memberHeader,
+  .toggleCard {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .inlineForm {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .inlineForm > * {
+    width: 100%;
+  }
+
+  .buttonRow > * {
+    width: 100%;
+    justify-content: center;
+  }
+}
